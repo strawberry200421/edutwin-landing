@@ -1,0 +1,1379 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>EduTwin · Laboratorio pedagógico</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+body{margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+a{color:#0053c1}a:hover{color:#6828e3}
+.t-light{--bg:#faf8ff;--bg2:#f2f3ff;--card:#ffffff;--card2:#eaedff;--card3:#dae2ff;--ink:#0b1a3b;--ink2:#424653;--ink3:#5c6273;--line:#c2c6d6;--line2:#e2e7ff;--pri:#0053c1;--pri2:#2d6cdf;--sec:#006a67;--teal:#14b8b3;--ter:#6828e3;--ter2:#814afd;--wm:#0b1a3b;--btn:#0053c1;--btn-ink:#ffffff;--grid:rgba(11,26,59,.09);--glass:rgba(250,248,255,.74);--shadow:0 22px 50px -26px rgba(11,26,59,.30);--glow:rgba(45,108,223,.22);--mesh:rgba(45,108,223,.32);--inv:#0b1a3b;--inv-ink:#eef0ff;--inv-ink2:#b9c2dc;--brand:linear-gradient(110deg,#2d6cdf 0%,#14b8b3 48%,#814afd 100%);--warn:#b3261e;--mid:#8a5a00;--ok:#006a67;color-scheme:light}
+.t-dark{--bg:#060d22;--bg2:#091330;--card:#0d1936;--card2:#132246;--card3:#1c2d59;--ink:#eef0ff;--ink2:#bac3dd;--ink3:#8f99b8;--line:#2b3b66;--line2:#18284f;--pri:#b0c6ff;--pri2:#5b8ff5;--sec:#72f7f1;--teal:#3fe0d9;--ter:#cdb6ff;--ter2:#9a6bff;--wm:#eef0ff;--btn:#b0c6ff;--btn-ink:#001945;--grid:rgba(176,198,255,.08);--glass:rgba(8,16,40,.72);--shadow:0 26px 60px -22px rgba(0,0,0,.65);--glow:rgba(91,143,245,.30);--mesh:rgba(120,165,255,.38);--inv:#101f46;--inv-ink:#eef0ff;--inv-ink2:#bac3dd;--brand:linear-gradient(110deg,#6c9bff 0%,#3fe0d9 48%,#a77dff 100%);--warn:#ffb4ab;--mid:#ffcf70;--ok:#72f7f1;color-scheme:dark}
+.edu{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background-color:var(--bg);color:var(--ink);min-height:100vh;position:relative;overflow-x:clip;transition:background-color .5s,color .5s}
+.edu ::selection{background:#72f7f1;color:#06121f}
+.disp{font-family:'Sora',system-ui,sans-serif;letter-spacing:-.035em}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.grad{background-image:var(--brand);-webkit-background-clip:text;background-clip:text;color:transparent}
+.grad-l{background-image:linear-gradient(110deg,#9fd0ff,#72f7f1 50%,#cdb6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dots{background-image:radial-gradient(var(--grid) 1.3px,transparent 1.5px);background-size:30px 30px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px;box-sizing:border-box}
+.sec{padding:140px 0;position:relative}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--sec);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:'';width:30px;height:1.5px;background:currentColor}
+.h2{font-family:'Sora',sans-serif;font-weight:700;font-size:clamp(34px,4.8vw,66px);line-height:1.02;letter-spacing:-.045em;margin:18px 0 0}
+.lead{font-size:clamp(16px,1.35vw,19px);line-height:1.65;color:var(--ink2);margin:0}
+.card{background:var(--card);border:1px solid var(--line2);border-radius:28px;box-shadow:var(--shadow);transition:background-color .5s,border-color .5s}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;border:0;font-family:inherit;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s,background-color .5s}
+.btn svg{transition:transform .3s}
+.btn:hover svg{transform:translateX(4px)}
+.btn-pri{background:var(--btn);color:var(--btn-ink)}
+.btn-pri:hover{color:var(--btn-ink);transform:translateY(-3px);box-shadow:0 16px 34px -12px var(--pri2)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{color:var(--ink);border-color:var(--pri2);transform:translateY(-3px)}
+.reset{background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer;text-align:inherit}
+.edu button:focus-visible,.edu a:focus-visible,.edu input:focus-visible{outline:2.5px solid var(--teal);outline-offset:4px}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* progress + nav */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:var(--brand);transform-origin:0 50%;transform:scaleX(0)}
+.nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;width:min(1200px,calc(100% - 28px));box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-radius:999px;background:var(--glass);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border:1px solid var(--line2);box-shadow:var(--shadow);transition:background-color .5s,border-color .5s}
+.brand{display:inline-flex;align-items:center;gap:8px;text-decoration:none;min-height:44px}
+.brand:hover{color:inherit}
+.logo-img{display:block}
+.t-dark .logo-img{filter:drop-shadow(0 0 1px rgba(238,240,255,.95)) drop-shadow(0 0 10px rgba(91,143,245,.45))}
+.nav-links{display:flex;gap:2px;flex:1;justify-content:center;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{color:var(--ink2);text-decoration:none;font-size:14px;font-weight:500;padding:12px 14px;border-radius:999px;white-space:nowrap;transition:background-color .25s,color .25s}
+.nav-links a:hover{background:var(--card2);color:var(--ink)}
+.tgl{width:68px;height:44px;border-radius:999px;background:var(--card2);border:1px solid var(--line);position:relative;flex-shrink:0;transition:background-color .5s}
+.tgl-k{position:absolute;top:5px;left:5px;width:32px;height:32px;border-radius:50%;background:var(--card);display:grid;place-items:center;color:var(--pri);box-shadow:0 4px 12px -4px rgba(0,0,0,.35);transition:transform .55s cubic-bezier(.7,-.45,.3,1.45),background-color .5s}
+.t-dark .tgl-k{transform:translateX(24px) rotate(-200deg)}
+.i-moon{display:none}.t-dark .i-moon{display:block}.t-dark .i-sun{display:none}
+.nav-cta{min-height:44px;padding:0 18px;font-size:14px}
+
+/* side dots */
+.dotnav{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:6px}
+.dotnav a{position:relative;display:grid;place-items:center;width:28px;height:28px;text-decoration:none}
+.dotnav a::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--line);transition:transform .3s,background-color .3s}
+.dotnav a:hover::before{transform:scale(1.6);background:var(--pri2)}
+.dotnav a::after{content:attr(data-label);position:absolute;right:34px;white-space:nowrap;font-size:12px;font-weight:600;padding:6px 10px;border-radius:8px;background:var(--inv);color:var(--inv-ink);opacity:0;transform:translateX(8px);pointer-events:none;transition:opacity .25s,transform .25s}
+.dotnav a:hover::after{opacity:1;transform:none}
+
+/* hero */
+.hero{min-height:100vh;padding:150px 0 90px;position:relative;overflow:hidden;box-sizing:border-box}
+.hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.18fr);gap:24px;align-items:center}
+.h1{font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(48px,7.2vw,108px);line-height:.96;letter-spacing:-.055em;margin:24px 0 0}
+.words{display:inline-block;height:1.08em;overflow:hidden;vertical-align:bottom;padding-right:.08em}
+.words-in{display:flex;flex-direction:column;animation:words 11s cubic-bezier(.85,0,.15,1) infinite}
+.words-in span{display:block;height:1.08em;line-height:1.08em}
+@keyframes words{0%,18%{transform:translateY(0)}25%,43%{transform:translateY(-20%)}50%,68%{transform:translateY(-40%)}75%,93%{transform:translateY(-60%)}100%{transform:translateY(-80%)}}
+.ghost-word{position:absolute;left:50%;bottom:-6vw;transform:translateX(-50%);font-family:'Sora',sans-serif;font-weight:800;font-size:22vw;letter-spacing:-.06em;line-height:1;white-space:nowrap;color:transparent;-webkit-text-stroke:1.5px var(--line2);pointer-events:none;user-select:none}
+.viz{position:relative;height:660px;margin-right:-48px}
+.viz::before{content:'';position:absolute;left:12%;right:12%;top:14%;bottom:20%;border-radius:50%;background:radial-gradient(closest-side,var(--glow),transparent);filter:blur(10px);pointer-events:none}
+.viz canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair}
+.hud-c{position:absolute;width:26px;height:26px;border:0 solid var(--pri2);opacity:.8;pointer-events:none}
+.hud-c.tl{top:0;left:0;border-width:2px 0 0 2px;border-top-left-radius:10px}
+.hud-c.tr{top:0;right:48px;border-width:2px 2px 0 0;border-top-right-radius:10px}
+.hud-c.bl{bottom:64px;left:0;border-width:0 0 2px 2px;border-bottom-left-radius:10px}
+.hud-c.br{bottom:64px;right:48px;border-width:0 2px 2px 0;border-bottom-right-radius:10px}
+.hud-top{position:absolute;top:18px;left:24px;right:72px;display:flex;justify-content:space-between;gap:12px;pointer-events:none}
+.hud-k{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.hud-name{font-family:'Sora',sans-serif;font-weight:800;font-size:30px;letter-spacing:-.04em;line-height:1.05;margin-top:6px}
+.hud-sub{font-size:13px;color:var(--ink2);margin-top:4px}
+.pills{position:absolute;left:0;right:48px;bottom:0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.pill-b{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:14px;background:var(--glass);border:1px solid var(--line2);font-size:13px;font-weight:600;color:var(--ink3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:color .3s,border-color .3s,transform .3s}
+.pill-b:hover{color:var(--ink);transform:translateY(-2px)}
+.pill-b .mono{font-size:11px;opacity:.7}
+.pill-b.on{color:var(--ink);border-color:var(--pri2)}
+.pill-b.on::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2.5px;background:var(--brand);transform-origin:0 50%;animation:pfill 5.2s linear both}
+.hud.paused .pill-b.on::after{animation-play-state:paused}
+@keyframes pfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.hud-hint{position:absolute;right:64px;bottom:76px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink3);pointer-events:none}
+.live{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:ping 1.8s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 10px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+.scroll-cue{display:inline-flex;align-items:center;gap:10px;color:var(--ink3);font-size:13px;text-decoration:none;margin-top:44px}
+.scroll-cue span{width:26px;height:40px;border:1.5px solid var(--line);border-radius:14px;position:relative}
+.scroll-cue span::after{content:'';position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--pri2);animation:wheel 1.8s ease-in-out infinite}
+@keyframes wheel{60%{transform:translateY(12px);opacity:0}100%{opacity:0}}
+
+/* marquee */
+.marq{border-block:1px solid var(--line2);overflow:hidden;padding:26px 0;background:var(--bg2);transition:background-color .5s}
+.marq-in{display:flex;width:max-content;animation:marq 40s linear infinite}
+.marq-item{display:inline-flex;align-items:center;gap:36px;padding-right:36px;font-family:'Sora',sans-serif;font-weight:700;font-size:30px;letter-spacing:-.03em;white-space:nowrap}
+.marq-item .o{color:transparent;-webkit-text-stroke:1.2px var(--ink3)}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* flip cards */
+.flip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:56px}
+.flip{perspective:1400px;display:block;width:100%;min-height:340px}
+.flip-in{position:relative;width:100%;min-height:340px;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.7,0,.2,1)}
+.flip:hover .flip-in{transform:rotateY(-8deg) rotateX(4deg)}
+.flip-in.on{transform:rotateY(180deg)}
+.flip:hover .flip-in.on{transform:rotateY(172deg) rotateX(4deg)}
+.face{position:absolute;inset:0;box-sizing:border-box;padding:28px;border-radius:26px;display:flex;flex-direction:column;gap:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;text-align:left}
+.face-f{background:var(--card);border:1px solid var(--line2);box-shadow:var(--shadow)}
+.face-b{transform:rotateY(180deg);background:var(--inv);color:var(--inv-ink);box-shadow:0 30px 60px -28px var(--pri2);border:1px solid rgba(114,247,241,.25);overflow:hidden}
+.face-b::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(114,247,241,.16) 1.2px,transparent 1.5px);background-size:22px 22px;pointer-events:none}
+.face-ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--card2);color:var(--pri)}
+.face-b .face-ic{background:rgba(114,247,241,.12);color:#72f7f1}
+.face h3{font-family:'Sora',sans-serif;font-size:22px;line-height:1.15;letter-spacing:-.03em;margin:0}
+.face p{margin:0;font-size:15px;line-height:1.6;color:var(--ink2)}
+.face-b p{color:var(--inv-ink2)}
+.face-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.face-b .face-tag{color:#72f7f1}
+.face-foot{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--pri)}
+.face-b .face-foot{color:#b0c6ff}
+.switch{display:inline-flex;align-items:center;gap:14px;min-height:52px;padding:6px 8px 6px 20px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:600;font-size:15px;color:var(--ink);box-shadow:var(--shadow)}
+.sw-track{width:56px;height:34px;border-radius:999px;background:var(--card3);position:relative;transition:background-color .4s}
+.sw-track::after{content:'';position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.25);transition:transform .45s cubic-bezier(.7,-.4,.3,1.4)}
+.switch.on .sw-track{background:var(--pri2)}
+.switch.on .sw-track::after{transform:translateX(22px)}
+
+/* how it works */
+.how{padding:44px;margin-top:56px}
+.track{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.track-line{position:absolute;top:30px;left:10%;right:10%;height:3px;border-radius:3px;background:var(--card3)}
+.track-fill{height:100%;border-radius:3px;background:var(--brand);transition:width .8s cubic-bezier(.7,0,.2,1)}
+.node{display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;z-index:1;min-height:44px}
+.node-dot{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:var(--card);border:2px solid var(--line);font-weight:600;font-size:15px;color:var(--ink3);transition:all .5s cubic-bezier(.2,.8,.2,1)}
+.node-lbl{font-size:14px;font-weight:600;color:var(--ink3);transition:color .4s;text-align:center}
+.node:hover .node-dot{border-color:var(--pri2);transform:translateY(-3px)}
+.node.is-done .node-dot{border-color:var(--pri2);color:var(--pri)}
+.node.is-on .node-dot{background:var(--brand);border-color:transparent;color:#fff;transform:scale(1.12);box-shadow:0 0 0 8px var(--glow)}
+.node.is-on .node-lbl{color:var(--ink)}
+.how-detail{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:40px;align-items:center;margin-top:52px;padding-top:44px;border-top:1px dashed var(--line)}
+.bignum{font-family:'Sora',sans-serif;font-weight:800;font-size:150px;line-height:.8;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.5px var(--pri2)}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--card2);color:var(--ink);font-size:13px;font-weight:600;transition:background-color .5s}
+.tag i{width:7px;height:7px;border-radius:50%;background:var(--teal);display:block}
+.cube-wrap{display:grid;place-items:center;height:300px;perspective:900px}
+.cube{width:170px;height:170px;position:relative;transform-style:preserve-3d;animation:cube 18s linear infinite}
+.cube-face{position:absolute;inset:0;box-sizing:border-box;display:grid;place-items:center;padding:12px;text-align:center;font-family:'Sora',sans-serif;font-weight:700;font-size:16px;letter-spacing:-.02em;border-radius:14px;border:1.5px solid var(--pri2);background:color-mix(in srgb,var(--card2) 82%,transparent);color:var(--ink);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.cube-face small{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--sec);margin-bottom:6px;font-weight:500}
+@keyframes cube{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+.cube-shadow{width:200px;height:40px;border-radius:50%;background:radial-gradient(ellipse,var(--glow),transparent 70%);margin-top:-10px}
+
+/* lab */
+.lab{margin-top:56px;padding:0;overflow:hidden}
+.lab-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:20px 28px;border-bottom:1px solid var(--line2);background:var(--bg2);transition:background-color .5s}
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.lab-col{padding:30px 28px;border-right:1px solid var(--line2);display:flex;flex-direction:column;gap:20px}
+.lab-col:last-child{border-right:0}
+.step-h{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;margin:0}
+.step-h b{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--brand);color:#fff;font-size:13px}
+.sl{display:flex;flex-direction:column;gap:6px}
+.sl-top{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:600}
+.sl-top output{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--pri)}
+.edu input[type=range]{width:100%;height:30px;margin:0;accent-color:var(--pri2);cursor:pointer}
+.strat{display:flex;flex-direction:column;gap:4px;width:100%;box-sizing:border-box;padding:16px 18px;border-radius:18px;border:1.5px solid var(--line2);background:var(--card);transition:border-color .3s,transform .3s,background-color .3s}
+.strat:hover{border-color:var(--pri2);transform:translateX(4px)}
+.strat.sel{border-color:var(--pri2);background:var(--card2);box-shadow:inset 4px 0 0 var(--pri2)}
+.strat-n{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;font-size:15px}
+.strat-d{font-size:13px;color:var(--ink3);line-height:1.5}
+.badge{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:var(--brand);color:#fff;white-space:nowrap}
+.gauge{position:relative;width:210px;height:210px;border-radius:50%;margin:0 auto;transition:background .6s}
+.gauge-in{position:absolute;inset:18px;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background-color .5s}
+.gauge-tick{position:absolute;left:50%;top:0;width:3px;height:50%;margin-left:-1.5px;transform-origin:50% 100%;transition:transform .6s}
+.gauge-tick::before{content:'';position:absolute;top:-4px;left:-4px;width:11px;height:26px;border-radius:4px;background:var(--ink);border:2px solid var(--card)}
+.bar{height:12px;border-radius:999px;background:var(--card3);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.risk{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-weight:700;font-size:13px;border:1.5px solid currentColor}
+
+/* concepts */
+.def{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;padding:34px 38px;margin-top:48px;background:var(--inv);color:var(--inv-ink);border-radius:28px;position:relative;overflow:hidden}
+.def::after{content:'';position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;border:1px solid rgba(114,247,241,.25);box-shadow:0 0 0 40px rgba(114,247,241,.04),0 0 0 80px rgba(114,247,241,.03)}
+.tilt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:22px}
+.tilt{perspective:1000px}
+.tilt-in{position:relative;height:100%;box-sizing:border-box;padding:34px;border-radius:28px;background:var(--card);border:1px solid var(--line2);box-shadow:var(--shadow);transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.8,.2,1),background-color .5s,border-color .5s}
+.tilt:hover .tilt-in{transform:rotateX(7deg) rotateY(-9deg);border-color:var(--pri2)}
+.tilt-num{font-family:'Sora',sans-serif;font-weight:800;font-size:76px;line-height:1;letter-spacing:-.06em;transform:translateZ(50px);display:inline-block}
+.tilt-in h3{font-family:'Sora',sans-serif;font-size:24px;letter-spacing:-.03em;margin:18px 0 12px;transform:translateZ(30px)}
+.tilt-in p{margin:0;line-height:1.65;color:var(--ink2);font-size:15.5px;transform:translateZ(18px)}
+.tilt-in .pill{transform:translateZ(40px)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--card2);color:var(--sec)}
+
+/* question */
+.qpanel{background:var(--inv);color:var(--inv-ink);border-radius:36px;padding:72px clamp(24px,6vw,84px);position:relative;overflow:hidden}
+.qpanel::before{content:'?';position:absolute;right:-20px;top:-80px;font-family:'Sora',sans-serif;font-weight:800;font-size:520px;line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(176,198,255,.16);pointer-events:none}
+.qtext{font-family:'Sora',sans-serif;font-weight:600;font-size:clamp(26px,3.4vw,46px);line-height:1.18;letter-spacing:-.035em;margin:26px 0 0;max-width:980px;position:relative}
+.seg{display:inline-flex;padding:5px;border-radius:999px;background:rgba(238,240,255,.08);border:1px solid rgba(238,240,255,.14);gap:4px}
+.seg-b{min-height:44px;padding:0 20px;border-radius:999px;font-weight:600;font-size:14px;color:#bac3dd;transition:background-color .3s,color .3s}
+.seg-b.on{background:#eef0ff;color:#0b1a3b}
+.seg-light{background:var(--card2);border-color:var(--line2)}
+.seg-light .seg-b{color:var(--ink2)}
+.seg-light .seg-b.on{background:var(--inv);color:var(--inv-ink)}
+
+/* method */
+.meth{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:56px;align-items:start;margin-top:56px}
+.cyc-wrap{perspective:1000px;display:flex;justify-content:center}
+.cyc{position:relative;width:min(420px,86vw);aspect-ratio:1;transform:rotateX(16deg) rotateZ(-3deg);transform-style:preserve-3d;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.cyc-wrap:hover .cyc{transform:rotateX(0) rotateZ(0)}
+.cyc-ring{position:absolute;inset:13%;border-radius:50%;border:1.5px dashed var(--line)}
+.cyc-ring2{position:absolute;inset:22%;border-radius:50%;border:1px solid var(--line2)}
+.cyc-spin{position:absolute;inset:13%;border-radius:50%;animation:spinZ 9s linear infinite}
+.cyc-spin::before{content:'';position:absolute;top:-9px;left:50%;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--brand);box-shadow:0 0 24px var(--pri2)}
+@keyframes spinZ{to{transform:rotate(360deg)}}
+.cyc-node{position:absolute;transform:translate(-50%,-50%) translateZ(40px);display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 18px;border-radius:20px;background:var(--card);border:1px solid var(--line2);box-shadow:var(--shadow);min-width:118px;text-align:center}
+.cyc-node b{font-family:'Sora',sans-serif;font-size:16px;letter-spacing:-.02em}
+.cyc-node span{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sec)}
+.cyc-center{position:absolute;inset:32%;border-radius:50%;display:grid;place-items:center;text-align:center;font-size:12.5px;line-height:1.45;color:var(--ink2);padding:10px}
+.row-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.3fr);gap:16px;padding:20px 22px;border-radius:20px;background:var(--card);border:1px solid var(--line2);transition:border-color .3s,transform .3s,background-color .5s}
+.row-card:hover{border-color:var(--pri2);transform:translateY(-2px)}
+.row-card dt{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.row-card dd{margin:0;font-size:14.5px;line-height:1.5}
+.row-card .k{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;letter-spacing:-.02em}
+
+/* layers */
+.ctx{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:48px;align-items:center;margin-top:48px}
+.stack{position:relative;width:380px;height:440px;margin:0 auto}
+.lyr{position:absolute;left:50%;width:250px;height:250px;margin-left:-125px;box-sizing:border-box;border-radius:30px;border:2px solid;transform:rotateX(60deg) rotateZ(-45deg);transition:transform .7s cubic-bezier(.2,.8,.2,1),background-color .5s,box-shadow .5s;display:grid;place-items:center;font-family:'Sora',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.03em;color:var(--ink);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.lyr:hover{transform:translateY(-10px) rotateX(60deg) rotateZ(-45deg)}
+.lyr.on{transform:translateY(-30px) rotateX(60deg) rotateZ(-45deg);color:#fff}
+.ctx-panel{padding:38px}
+.phase{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:22px}
+.phase span.p{padding:10px 16px;border-radius:14px;background:var(--card2);font-weight:600;font-size:14px}
+
+/* team */
+.team{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:56px}
+.person{padding:28px;display:flex;flex-direction:column;gap:16px;transition:transform .4s cubic-bezier(.2,.8,.2,1),background-color .5s,border-color .5s}
+.person:hover{transform:translateY(-6px);border-color:var(--pri2)}
+.av{position:relative;width:76px;height:76px;border-radius:50%;display:grid;place-items:center}
+.av::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from var(--ang),#2d6cdf,#14b8b3,#814afd,#2d6cdf);animation:ang 6s linear infinite}
+@keyframes ang{to{--ang:360deg}}
+.av span{position:relative;width:70px;height:70px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-family:'Sora',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.03em;transition:background-color .5s}
+.role{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sec)}
+.person h3{font-family:'Sora',sans-serif;font-size:20px;letter-spacing:-.03em;margin:0;line-height:1.2}
+.inst{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;margin-top:20px;overflow:hidden}
+.inst > div{padding:26px 28px;border-right:1px solid var(--line2)}
+.inst > div:last-child{border-right:0}
+.inst dt{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+.inst dd{margin:0;font-weight:600;line-height:1.5}
+
+/* footer */
+.foot{padding:110px 0 50px;border-top:1px solid var(--line2);position:relative;overflow:hidden}
+.foot-word{font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(70px,15vw,230px);letter-spacing:-.065em;line-height:.9;margin:0}
+
+/* reveal on scroll (progressive) */
+@keyframes rv{from{opacity:0;transform:translateY(46px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes grow{to{transform:scaleX(1)}}
+@supports (animation-timeline: view()){
+  .rv{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+  .progress{animation:grow linear both;animation-timeline:scroll(root)}
+}
+
+/* theme reveal transition */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-new(root){animation:vt .8s cubic-bezier(.7,0,.2,1)}
+@keyframes vt{from{clip-path:circle(0px at var(--vtx,90%) var(--vty,4%))}to{clip-path:circle(160vmax at var(--vtx,90%) var(--vty,4%))}}
+
+/* responsive */
+@media (max-width:1100px){.dotnav{display:none}}
+@media (max-width:980px){
+  .hero-grid,.how-detail,.meth,.ctx{grid-template-columns:minmax(0,1fr)}
+  .viz{height:540px;margin-right:0}
+  .hud-c.tr,.hud-c.br{right:0}
+  .pills{right:0}
+  .hud-top{right:24px}
+  .hud-hint{right:16px}
+  .lab-col{border-right:0;border-bottom:1px solid var(--line2)}
+}
+@media (max-width:900px){
+  .nav{flex-wrap:wrap;border-radius:26px;padding:8px 10px}
+  .nav-links{order:3;flex-basis:100%;justify-content:flex-start}
+  .nav-cta{display:none}
+}
+@media (max-width:700px){
+  .wrap{padding:0 18px}
+  .sec{padding:96px 0}
+  .hero{padding-top:170px}
+  .viz{height:460px}
+  .hud-name{font-size:24px}
+  .hud-hint{display:none}
+  .pill-b{padding:0 12px}
+  .pill-b .mono{display:none}
+  .how{padding:24px 18px}
+  .node-dot{width:46px;height:46px;font-size:13px}
+  .track-line{top:23px}
+  .node-lbl{font-size:11.5px}
+  .bignum{font-size:96px}
+  .row-card{grid-template-columns:minmax(0,1fr)}
+  .def{grid-template-columns:minmax(0,1fr);padding:28px}
+  .stack{transform:scale(.82);margin:-30px auto}
+  .ctx-panel{padding:26px}
+  .marq-item{font-size:22px}
+}
+@media (prefers-reduced-motion: reduce){
+  .edu *,.edu *::before,.edu *::after{animation:none !important;transition:none !important}
+  html{scroll-behavior:auto}
+}
+.still *,.still *::before,.still *::after{animation:none !important}
+</style>
+</helmet>
+
+<div class="edu dots {{themeClass}}" id="inicio">
+
+  <div class="progress" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav class="nav" aria-label="Principal">
+    <a href="#inicio" class="brand" aria-label="EduTwin, ir al inicio">
+      <img class="logo-img" src="./assets/11859e0347c2a4436753c4eb660887af.png" alt="" style="height: 36px; width: auto">
+      <span class="disp" style="font-weight: 800; font-size: 22px; line-height: 1"><span style="color: var(--wm)">Edu</span><span class="grad">Twin</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#reto">El reto</a>
+      <a href="#como">Cómo funciona</a>
+      <a href="#laboratorio">Laboratorio</a>
+      <a href="#fundamentos">Fundamentos</a>
+      <a href="#metodologia">Metodología</a>
+      <a href="#contexto">Contexto</a>
+      <a href="#equipo">Equipo</a>
+    </div>
+    <a href="#laboratorio" class="btn btn-pri nav-cta">Probar demo</a>
+    <button class="reset tgl" onClick="{{toggleTheme}}" aria-label="{{themeLabel}}" title="{{themeLabel}}">
+      <span class="tgl-k">
+        <svg class="ic i-sun" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+        <svg class="ic i-moon" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg>
+      </span>
+    </button>
+  </nav>
+
+  <!-- SIDE DOTS -->
+  <nav class="dotnav" aria-label="Secciones">
+    <a href="#inicio" data-label="Inicio" aria-label="Inicio"></a>
+    <a href="#reto" data-label="El reto" aria-label="El reto"></a>
+    <a href="#como" data-label="Cómo funciona" aria-label="Cómo funciona"></a>
+    <a href="#laboratorio" data-label="Laboratorio" aria-label="Laboratorio"></a>
+    <a href="#fundamentos" data-label="Fundamentos" aria-label="Fundamentos"></a>
+    <a href="#pregunta" data-label="Pregunta" aria-label="Pregunta de investigación"></a>
+    <a href="#metodologia" data-label="Metodología" aria-label="Metodología"></a>
+    <a href="#contexto" data-label="Contexto" aria-label="Contexto"></a>
+    <a href="#equipo" data-label="Equipo" aria-label="Equipo"></a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" onMouseMove="{{onHeroMove}}" onMouseLeave="{{onHeroLeave}}">
+    <div class="ghost-word" aria-hidden="true">EDUTWIN</div>
+    <div class="wrap hero-grid" style="position: relative">
+      <div>
+        <span class="eyebrow">Human Digital Twin · Educación básica y media</span>
+        <h1 class="h1">Simula antes de<br><span class="words"><span class="words-in"><span class="grad">enseñar.</span><span class="grad">intervenir.</span><span class="grad">decidir.</span><span class="grad">planear.</span><span class="grad">enseñar.</span></span></span></h1>
+        <p class="lead" style="margin-top: 28px; max-width: 560px">EduTwin es un <strong style="color: var(--ink)">gemelo digital humano</strong> que funciona como laboratorio pedagógico: replica a cada estudiante a partir de datos reales para caracterizarlo y proyectar el efecto de una estrategia antes de llevarla al aula.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px">
+          <a href="#laboratorio" class="btn btn-pri">Entrar al laboratorio <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+          <a href="#como" class="btn btn-ghost">Cómo funciona</a>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 28px; margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--line2); max-width: 560px">
+          <div><div class="mono" style="font-size: 11px; letter-spacing: .14em; color: var(--ink3); text-transform: uppercase">Programa</div><div style="font-weight: 600; margin-top: 6px">Licenciatura en Informática</div></div>
+          <div><div class="mono" style="font-size: 11px; letter-spacing: .14em; color: var(--ink3); text-transform: uppercase">Institución</div><div style="font-weight: 600; margin-top: 6px">Universidad de Córdoba</div></div>
+          <div><div class="mono" style="font-size: 11px; letter-spacing: .14em; color: var(--ink3); text-transform: uppercase">Territorio</div><div style="font-weight: 600; margin-top: 6px">Montería, Colombia</div></div>
+        </div>
+        <a href="#reto" class="scroll-cue"><span aria-hidden="true"></span>Desliza para explorar</a>
+      </div>
+
+      <div class="viz">
+        <canvas id="twin-canvas" ref="{{cvRef}}" role="img" aria-label="Escena 3D de partículas que se transforma en una nube de datos, una doble hélice, el logo de EduTwin y un paisaje de proyección"></canvas>
+        <span class="hud-c tl" aria-hidden="true"></span><span class="hud-c tr" aria-hidden="true"></span><span class="hud-c bl" aria-hidden="true"></span><span class="hud-c br" aria-hidden="true"></span>
+        <div class="hud-top" aria-live="polite">
+          <div>
+            <div class="hud-k">Fase {{vs.k}} / 04 · HDT</div>
+            <div class="hud-name grad">{{vs.name}}</div>
+            <div class="hud-sub">{{vs.sub}}</div>
+          </div>
+          <div class="hud-k" style="text-align: right; line-height: 1.8"><span style="display: inline-flex; align-items: center; gap: 8px"><i class="live"></i>En vivo</span><br>1 600 nodos</div>
+        </div>
+        <div class="hud-hint" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24" style="width: 16px; height: 16px"><path d="M5 3l14 8-6 2-2 6z"></path></svg>Pasa el cursor para perturbar el gemelo</div>
+        <div class="{{hudCls}}">
+          <div class="pills" role="group" aria-label="Fases de la escena">
+            <sc-for list="{{vstages}}" as="v" hint-placeholder-count="4">
+              <button class="reset {{v.cls}}" onClick="{{v.pick}}" aria-pressed="{{v.on}}"><span class="mono">{{v.k}}</span>{{v.name}}</button>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MARQUEE -->
+  <div class="marq" aria-hidden="true">
+    <div class="marq-in">
+      <span class="marq-item"><span>Caracterización</span><span class="grad">✦</span><span class="o">Simulación</span><span class="grad">✦</span><span>Personalización</span><span class="grad">✦</span><span class="o">Human Digital Twin</span><span class="grad">✦</span><span>Laboratorio pedagógico</span><span class="grad">✦</span><span class="o">Decisiones con evidencia</span><span class="grad">✦</span></span>
+      <span class="marq-item"><span>Caracterización</span><span class="grad">✦</span><span class="o">Simulación</span><span class="grad">✦</span><span>Personalización</span><span class="grad">✦</span><span class="o">Human Digital Twin</span><span class="grad">✦</span><span>Laboratorio pedagógico</span><span class="grad">✦</span><span class="o">Decisiones con evidencia</span><span class="grad">✦</span></span>
+    </div>
+  </div>
+
+  <!-- RETO -->
+  <section class="sec" id="reto">
+    <div class="wrap">
+      <div class="rv" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 28px">
+        <div style="max-width: 720px">
+          <span class="eyebrow">01 · El reto</span>
+          <h2 class="h2">El aula ve el resultado.<br><span class="grad">EduTwin ve el proceso.</span></h2>
+          <p class="lead" style="margin-top: 22px">En la educación básica y media persisten estudiantes con bajo rendimiento, desmotivación y poca participación, mientras la caracterización sigue apoyándose en observación y registros manuales. Gira cada tarjeta para ver la respuesta del gemelo digital.</p>
+        </div>
+        <button class="reset {{switchCls}}" onClick="{{toggleAll}}" aria-pressed="{{allOn}}">
+          <span>{{switchLabel}}</span><span class="sw-track" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="flip-grid">
+        <div class="rv">
+          <button class="reset flip" onClick="{{flip0}}" aria-pressed="{{on0}}" aria-label="Caracterización manual. Mostrar la respuesta de EduTwin">
+            <div class="{{cls0}}">
+              <div class="face face-f">
+                <span class="face-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="M13 7l4 4"></path></svg></span>
+                <span class="face-tag">Hoy</span>
+                <h3>Caracterización manual</h3>
+                <p>Observación y registros a mano: información poco sistemática y difícil de mantener actualizada.</p>
+                <span class="face-foot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"></path></svg>Girar</span>
+              </div>
+              <div class="face face-b">
+                <span class="face-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path><path d="M18 3l3 3-3 3"></path></svg></span>
+                <span class="face-tag">Con EduTwin</span>
+                <h3>Perfil digital vivo</h3>
+                <p>Integra rendimiento, asistencia, participación y evaluación en un perfil que se actualiza con cada dato.</p>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div class="rv">
+          <button class="reset flip" onClick="{{flip1}}" aria-pressed="{{on1}}" aria-label="Bajo rendimiento y desmotivación. Mostrar la respuesta de EduTwin">
+            <div class="{{cls1}}">
+              <div class="face face-f">
+                <span class="face-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><path d="M3 7l6 6 4-4 8 8"></path><path d="M21 11v6h-6"></path></svg></span>
+                <span class="face-tag">Hoy</span>
+                <h3>Bajo rendimiento y desmotivación</h3>
+                <p>Comportamientos asociados a factores emocionales, sociales y pedagógicos (Bravo García et al., 2015).</p>
+                <span class="face-foot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"></path></svg>Girar</span>
+              </div>
+              <div class="face face-b">
+                <span class="face-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3M8 11h6M11 8v6"></path></svg></span>
+                <span class="face-tag">Con EduTwin</span>
+                <h3>Lectura integral</h3>
+                <p>Cruza lo académico, lo conductual y lo emocional para entender el porqué del desempeño, no solo el qué.</p>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div class="rv">
+          <button class="reset flip" onClick="{{flip2}}" aria-pressed="{{on2}}" aria-label="Estrategias a ciegas. Mostrar la respuesta de EduTwin">
+            <div class="{{cls2}}">
+              <div class="face face-f">
+                <span class="face-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4"></circle><path d="M4 4l16 16"></path></svg></span>
+                <span class="face-tag">Hoy</span>
+                <h3>Estrategias a ciegas</h3>
+                <p>Las intervenciones se prueban directamente con el estudiante real, sin saber de antemano su efecto.</p>
+                <span class="face-foot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"></path></svg>Girar</span>
+              </div>
+              <div class="face face-b">
+                <span class="face-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"></path><path d="M7.5 14h9"></path></svg></span>
+                <span class="face-tag">Con EduTwin</span>
+                <h3>Ensayo seguro</h3>
+                <p>Se simulan escenarios y se proyectan los posibles efectos antes de aplicar la estrategia en el aula.</p>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div class="rv">
+          <button class="reset flip" onClick="{{flip3}}" aria-pressed="{{on3}}" aria-label="Tecnología instrumental. Mostrar la respuesta de EduTwin">
+            <div class="{{cls3}}">
+              <div class="face face-f">
+                <span class="face-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg></span>
+                <span class="face-tag">Hoy</span>
+                <h3>Tecnología instrumental</h3>
+                <p>Las TIC llegan al aula sin un enfoque analítico o predictivo del aprendizaje (Pérez &amp; Caro, 2022).</p>
+                <span class="face-foot"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5"></path></svg>Girar</span>
+              </div>
+              <div class="face face-b">
+                <span class="face-ic"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2z"></path></svg></span>
+                <span class="face-tag">Con EduTwin</span>
+                <h3>Decisiones con evidencia</h3>
+                <p>El docente decide con datos y simulaciones, complementado por la tecnología, nunca reemplazado.</p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="sec" id="como" style="padding-top: 40px">
+    <div class="wrap">
+      <div class="rv" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+        <div style="max-width: 720px">
+          <span class="eyebrow">02 · Cómo funciona</span>
+          <h2 class="h2">Del dato real<br>a la decisión en el aula.</h2>
+        </div>
+        <button class="btn btn-ghost" onClick="{{toggleAuto}}" aria-label="{{autoLabel}}">
+          <sc-if value="{{auto}}" hint-placeholder-val="{{ true }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"></path></svg></sc-if>
+          <sc-if value="{{notAuto}}" hint-placeholder-val="{{ false }}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z"></path></svg></sc-if>
+          {{autoText}}
+        </button>
+      </div>
+
+      <div class="card how rv">
+        <div class="track">
+          <div class="track-line" aria-hidden="true"><div class="track-fill" style="width: {{prog}}%"></div></div>
+          <sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
+            <button class="reset {{s.cls}}" onClick="{{s.pick}}" aria-label="{{s.aria}}" aria-current="{{s.current}}">
+              <span class="node-dot mono">{{s.num}}</span>
+              <span class="node-lbl">{{s.label}}</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <div class="how-detail" aria-live="polite">
+          <div>
+            <div style="display: flex; align-items: flex-end; gap: 22px; flex-wrap: wrap">
+              <div class="bignum">{{cur.num}}</div>
+              <div class="mono" style="font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--sec); padding-bottom: 14px">Paso {{cur.num}} · {{cur.label}}</div>
+            </div>
+            <h3 class="disp" style="font-size: clamp(28px,3vw,40px); font-weight: 700; margin: 26px 0 14px; line-height: 1.1">{{cur.title}}</h3>
+            <p class="lead">{{cur.text}}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px">
+              <sc-for list="{{cur.tags}}" as="t" hint-placeholder-count="3">
+                <span class="tag"><i></i>{{t}}</span>
+              </sc-for>
+            </div>
+          </div>
+          <div>
+            <div class="cube-wrap" aria-hidden="true">
+              <div style="display: flex; flex-direction: column; align-items: center">
+                <div class="cube">
+                  <div class="cube-face" style="transform: rotateY(0deg) translateZ(85px)"><div><small>DATO</small>Rendimiento</div></div>
+                  <div class="cube-face" style="transform: rotateY(90deg) translateZ(85px)"><div><small>DATO</small>Asistencia</div></div>
+                  <div class="cube-face" style="transform: rotateY(180deg) translateZ(85px)"><div><small>DATO</small>Participación</div></div>
+                  <div class="cube-face" style="transform: rotateY(-90deg) translateZ(85px)"><div><small>DATO</small>Evaluación</div></div>
+                  <div class="cube-face" style="transform: rotateX(90deg) translateZ(85px)"><div><small>HDT</small>Gemelo</div></div>
+                  <div class="cube-face" style="transform: rotateX(-90deg) translateZ(85px)"><div><small>DATO</small>Observación</div></div>
+                </div>
+                <div class="cube-shadow" style="margin-top: 60px"></div>
+              </div>
+            </div>
+            <p class="mono" style="text-align: center; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink3); margin: 0">El cubo de datos que alimenta al gemelo</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LABORATORIO -->
+  <section class="sec" id="laboratorio" style="background: var(--bg2); border-block: 1px solid var(--line2); transition: background-color .5s">
+    <div class="wrap">
+      <div class="rv" style="max-width: 780px">
+        <span class="eyebrow">03 · Laboratorio en vivo</span>
+        <h2 class="h2">Juega con un gemelo.<br><span class="grad">Mira qué pasaría.</span></h2>
+        <p class="lead" style="margin-top: 22px">Ajusta el perfil del estudiante, elige una estrategia y observa cómo el laboratorio proyecta su efecto. Así se vería la experiencia del docente con EduTwin.</p>
+      </div>
+
+      <div class="card lab rv">
+        <div class="lab-head">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <img class="logo-img" src="./assets/11859e0347c2a4436753c4eb660887af.png" alt="" style="height: 30px; width: auto">
+            <div>
+              <div style="font-weight: 700">EduTwin Lab</div>
+              <div class="mono" style="font-size: 11px; color: var(--ink3)">gemelo · estudiante de ejemplo</div>
+            </div>
+          </div>
+          <span class="pill" style="background: var(--card); border: 1px solid var(--line2)"><i class="live"></i>Demo conceptual · valores ilustrativos</span>
+        </div>
+
+        <div class="lab-grid">
+          <div class="lab-col">
+            <h3 class="step-h"><b>1</b>Perfil del gemelo</h3>
+            <sc-for list="{{sliders}}" as="s" hint-placeholder-count="4">
+              <div class="sl">
+                <div class="sl-top"><label for="{{s.id}}">{{s.label}}</label><output for="{{s.id}}">{{s.val}}%</output></div>
+                <input type="range" id="{{s.id}}" min="0" max="100" step="1" value="{{s.val}}" onChange="{{s.on}}">
+              </div>
+            </sc-for>
+            <div>
+              <div class="mono" style="font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink3); margin-bottom: 10px">Hallazgos del gemelo</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <sc-for list="{{findings}}" as="f" hint-placeholder-count="2">
+                  <span class="tag"><i style="background: var(--ter2)"></i>{{f}}</span>
+                </sc-for>
+                <sc-if value="{{noFindings}}" hint-placeholder-val="{{ false }}">
+                  <span class="tag"><i></i>Perfil equilibrado</span>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+
+          <div class="lab-col">
+            <h3 class="step-h"><b>2</b>Elige una estrategia</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <sc-for list="{{strats}}" as="st" hint-placeholder-count="4">
+                <button class="reset {{st.cls}}" onClick="{{st.pick}}" aria-pressed="{{st.sel}}">
+                  <span class="strat-n"><span>{{st.name}}</span><sc-if value="{{st.best}}" hint-placeholder-val="{{ false }}"><span class="badge">Sugerida</span></sc-if></span>
+                  <span class="strat-d">{{st.desc}}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div class="lab-col">
+            <h3 class="step-h"><b>3</b>Proyección</h3>
+            <div class="gauge" style="background: {{gaugeBg}}" role="img" aria-label="{{gaugeAria}}">
+              <div class="gauge-tick" style="transform: rotate({{curDeg}}deg)"></div>
+              <div class="gauge-in">
+                <div class="disp" style="font-size: 54px; font-weight: 800; line-height: 1">{{proj}}</div>
+                <div class="mono" style="font-size: 11px; color: var(--ink3); letter-spacing: .12em; margin-top: 4px">DESEMPEÑO PROYECTADO</div>
+                <div style="font-weight: 700; color: var(--sec); margin-top: 8px">+{{delta}} pts</div>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px"><span>Actual</span><span class="mono">{{perf}}</span></div>
+                <div class="bar"><i style="width: {{perf}}%; background: var(--ink3)"></i></div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 6px"><span>Con {{stratName}}</span><span class="mono">{{proj}}</span></div>
+                <div class="bar"><i style="width: {{proj}}%; background: var(--brand)"></i></div>
+              </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+              <span class="risk" style="color: {{riskColor}}">{{riskLabel}}</span>
+              <span style="font-size: 13px; color: var(--ink3)">según el perfil actual</span>
+            </div>
+            <p style="font-size: 12.5px; line-height: 1.55; color: var(--ink3); margin: 0">Modelo ilustrativo para explicar la idea. No usa datos reales ni resultados de la investigación.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FUNDAMENTOS -->
+  <section class="sec" id="fundamentos">
+    <div class="wrap">
+      <div class="rv" style="max-width: 760px">
+        <span class="eyebrow">04 · Fundamentos</span>
+        <h2 class="h2">Tres ideas sostienen el laboratorio.</h2>
+      </div>
+
+      <div class="def rv">
+        <img class="logo-img" src="./assets/11859e0347c2a4436753c4eb660887af.png" alt="" style="width: 120px; height: auto; filter: drop-shadow(0 0 1px rgba(238,240,255,.95)) drop-shadow(0 0 14px rgba(114,247,241,.35))">
+        <div style="position: relative">
+          <div class="mono" style="font-size: 11px; letter-spacing: .16em; color: #72f7f1; text-transform: uppercase">Human Digital Twin (HDT)</div>
+          <p class="disp" style="font-size: clamp(20px,2.2vw,28px); font-weight: 600; line-height: 1.3; margin: 12px 0 0">Una réplica digital que integra datos del mundo real para representar dinámicamente el comportamiento de un sujeto, y permite observar, analizar y anticipar respuestas ante distintos estímulos educativos.</p>
+          <p style="margin: 14px 0 0; font-size: 13px; color: #bac3dd">Tao et al., 2019 · Kritzinger et al., 2018 · Shengli, 2021</p>
+        </div>
+      </div>
+
+      <div class="tilt-grid">
+        <div class="tilt rv">
+          <div class="tilt-in">
+            <span class="pill">Categoría</span><br>
+            <span class="tilt-num grad" style="margin-top: 18px">01</span>
+            <h3>Caracterización educativa</h3>
+            <p>Identificación sistemática de las particularidades académicas, conductuales y emocionales de cada estudiante. El HDT la hace más precisa al integrar rendimiento, asistencia, participación y evaluación.</p>
+          </div>
+        </div>
+        <div class="tilt rv">
+          <div class="tilt-in">
+            <span class="pill">Categoría</span><br>
+            <span class="tilt-num grad" style="margin-top: 18px">02</span>
+            <h3>Simulación pedagógica</h3>
+            <p>Experimentar virtualmente una estrategia antes de implementarla en el aula. Optimiza recursos y fomenta la reflexión docente y la innovación didáctica.</p>
+          </div>
+        </div>
+        <div class="tilt rv">
+          <div class="tilt-in">
+            <span class="pill">Eje transversal</span><br>
+            <span class="tilt-num grad" style="margin-top: 18px">03</span>
+            <h3>Personalización del aprendizaje</h3>
+            <p>Perfiles digitales individualizados para adaptar la enseñanza a las necesidades, ritmos y estilos de cada estudiante, en favor de la equidad educativa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREGUNTA -->
+  <section class="sec" id="pregunta" style="padding-top: 20px">
+    <div class="wrap">
+      <div class="qpanel rv">
+        <span class="eyebrow" style="color: #72f7f1">05 · Pregunta de investigación</span>
+        <p class="qtext">¿Cómo puede un <span class="grad-l">Human Digital Twin</span> funcionar como un laboratorio pedagógico para mejorar la caracterización de estudiantes con bajo rendimiento académico en instituciones de educación básica y media?</p>
+
+        <div style="margin-top: 52px; position: relative">
+          <div class="seg" role="group" aria-label="Hipótesis o supuesto">
+            <button class="reset {{hypCls}}" onClick="{{showHyp}}" aria-pressed="{{isHyp}}">Hipótesis</button>
+            <button class="reset {{supCls}}" onClick="{{showSup}}" aria-pressed="{{isSup}}">Supuesto</button>
+          </div>
+          <sc-if value="{{isHyp}}" hint-placeholder-val="{{ true }}">
+            <p style="margin: 24px 0 0; max-width: 860px; font-size: clamp(16px,1.5vw,20px); line-height: 1.65; color: #d7ddf0">El uso de un Human Digital Twin como laboratorio pedagógico mejora significativamente la caracterización de estudiantes con bajo rendimiento académico, al permitir la simulación de estrategias pedagógicas personalizadas basadas en datos reales y la proyección de sus posibles efectos sobre el desempeño escolar.</p>
+          </sc-if>
+          <sc-if value="{{isSup}}" hint-placeholder-val="{{ false }}">
+            <p style="margin: 24px 0 0; max-width: 860px; font-size: clamp(16px,1.5vw,20px); line-height: 1.65; color: #d7ddf0">Se asume que la implementación de un laboratorio pedagógico digital, fundamentado en el modelo de Human Digital Twin, facilita la comprensión integral de los procesos de aprendizaje y favorece la toma de decisiones pedagógicas más contextualizadas y personalizadas por parte de los docentes.</p>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METODOLOGIA -->
+  <section class="sec" id="metodologia" style="padding-top: 60px">
+    <div class="wrap">
+      <div class="rv" style="max-width: 760px">
+        <span class="eyebrow">06 · Metodología</span>
+        <h2 class="h2">Ciclos que se observan, <span class="grad">se ajustan y vuelven a empezar.</span></h2>
+      </div>
+
+      <div class="meth">
+        <div class="rv">
+          <div class="cyc-wrap" aria-hidden="true">
+            <div class="cyc">
+              <div class="cyc-ring2"></div>
+              <div class="cyc-ring"></div>
+              <div class="cyc-spin"></div>
+              <div class="cyc-center"><div><b class="disp" style="font-size: 15px; color: var(--ink)">Kemmis &amp; McTaggart</b><br>(1990)</div></div>
+              <div class="cyc-node" style="left: 50%; top: 13%"><span>01</span><b>Planificar</b></div>
+              <div class="cyc-node" style="left: 87%; top: 50%"><span>02</span><b>Actuar</b></div>
+              <div class="cyc-node" style="left: 50%; top: 87%"><span>03</span><b>Observar</b></div>
+              <div class="cyc-node" style="left: 13%; top: 50%"><span>04</span><b>Reflexionar</b></div>
+            </div>
+          </div>
+          <p class="lead" style="margin-top: 28px; text-align: center; max-width: 440px; margin-left: auto; margin-right: auto">El diseño de la investigación sigue el modelo de Kemmis y McTaggart (1990): cada ciclo con el prototipo alimenta el siguiente.</p>
+        </div>
+
+        <div class="rv">
+          <div class="seg seg-light" role="group" aria-label="Tipo de análisis">
+            <button class="reset {{catCls}}" onClick="{{showCat}}" aria-pressed="{{isCat}}">Categorías de análisis</button>
+            <button class="reset {{varCls}}" onClick="{{showVar}}" aria-pressed="{{isVar}}">Variables</button>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 22px">
+            <sc-for list="{{rows}}" as="r" hint-placeholder-count="4">
+              <dl class="row-card" style="margin: 0">
+                <div><dt>{{r.h1}}</dt><dd class="k">{{r.a}}</dd></div>
+                <div><dt>{{r.h2}}</dt><dd>{{r.b}}</dd></div>
+                <div><dt>{{r.h3}}</dt><dd style="color: var(--ink2)">{{r.c}}</dd></div>
+              </dl>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEXTO -->
+  <section class="sec" id="contexto" style="background: var(--bg2); border-block: 1px solid var(--line2); transition: background-color .5s">
+    <div class="wrap">
+      <div class="rv" style="max-width: 760px">
+        <span class="eyebrow">07 · Contexto y antecedentes</span>
+        <h2 class="h2">Del mundo a <span class="grad">Montería.</span></h2>
+        <p class="lead" style="margin-top: 22px">Toca cada capa para recorrer lo que dice la investigación previa, de lo global a lo local.</p>
+      </div>
+
+      <div class="ctx">
+        <div class="rv">
+          <div class="stack">
+            <sc-for list="{{layers}}" as="l" hint-placeholder-count="3">
+              <button class="reset {{l.cls}}" onClick="{{l.pick}}" aria-pressed="{{l.on}}" style="top: {{l.top}}px; z-index: {{l.z}}; border-color: {{l.color}}; background: {{l.bg}}; box-shadow: {{l.shadow}}">{{l.name}}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div class="card ctx-panel rv" aria-live="polite">
+          <span class="pill">{{layer.kicker}}</span>
+          <h3 class="disp" style="font-size: clamp(26px,2.6vw,36px); font-weight: 700; margin: 18px 0 14px; line-height: 1.1">{{layer.title}}</h3>
+          <p class="lead">{{layer.text}}</p>
+          <p style="margin: 16px 0 0; font-size: 13px; color: var(--ink3)">{{layer.refs}}</p>
+          <div style="margin-top: 28px; padding-top: 24px; border-top: 1px dashed var(--line)">
+            <div class="mono" style="font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink3)">Ruta del prototipo en instituciones públicas de Montería</div>
+            <div class="phase">
+              <span class="p">Diseño</span>
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--pri2)"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              <span class="p">Validación</span>
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--pri2)"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              <span class="p">Prueba</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  <section class="sec" id="equipo">
+    <div class="wrap">
+      <div class="rv" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+        <div style="max-width: 720px">
+          <span class="eyebrow">08 · Equipo</span>
+          <h2 class="h2">Quiénes hacen EduTwin.</h2>
+        </div>
+        <span class="pill"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px"><path d="M12 3l9 5-9 5-9-5z"></path><path d="M7 10.5V16c0 1.5 2.2 3 5 3s5-1.5 5-3v-5.5"></path></svg>Semillero LABSIE · grupo EDUTLAN</span>
+      </div>
+
+      <div class="team">
+        <article class="card person rv">
+          <div class="av"><span class="grad">DT</span></div>
+          <div><div class="role">Autora</div><h3 style="margin-top: 6px">Daniela Cecilia Torres Lopez</h3></div>
+        </article>
+        <article class="card person rv">
+          <div class="av"><span class="grad">MC</span></div>
+          <div><div class="role">Director</div><h3 style="margin-top: 6px">Manuel Fernando Caro Piñeres</h3></div>
+        </article>
+        <article class="card person rv">
+          <div class="av"><span class="grad">RP</span></div>
+          <div><div class="role">Codirector</div><h3 style="margin-top: 6px">Ronald Manuel Perez Verte</h3></div>
+        </article>
+      </div>
+
+      <dl class="card inst rv" style="margin-bottom: 0">
+        <div><dt>Universidad</dt><dd>Universidad de Córdoba · Montería</dd></div>
+        <div><dt>Facultad</dt><dd>Educación y Ciencias Humanas</dd></div>
+        <div><dt>Línea de investigación</dt><dd>Educación Tecnológica · Simulación Pedagógica Personalizada</dd></div>
+        <div><dt>Socialización</dt><dd>Congresos, revistas de educación y tecnología, presentaciones institucionales</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="wrap">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 30px">
+        <div>
+          <img class="logo-img" src="./assets/11859e0347c2a4436753c4eb660887af.png" alt="Logo de EduTwin" style="height: 72px; width: auto">
+          <p class="foot-word"><span style="color: var(--wm)">Edu</span><span class="grad">Twin</span></p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
+          <p class="lead" style="max-width: 380px; font-size: 16px">Diseño de un Human Digital Twin como laboratorio pedagógico para la caracterización de estudiantes en educación básica y media.</p>
+          <a href="#inicio" class="btn btn-ghost">Volver arriba <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="transform: rotate(-90deg)"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin-top: 54px; padding-top: 22px; border-top: 1px solid var(--line2); font-size: 13px; color: var(--ink3)">
+        <span>Informe de trabajo de grado · Licenciatura en Informática</span>
+        <span>Universidad de Córdoba · Montería, Colombia</span>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"startTheme":{"editor":"enum","options":["auto","light","dark"],"default":"auto","section":"Tema"},"motion":{"editor":"boolean","default":true,"section":"Movimiento"},"$preview":{"width":1440,"height":8600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dark: null, vstage: 0, vpaused: false,
+      flipped: [false, false, false, false],
+      step: 0, auto: true,
+      att: 72, part: 38, mot: 34, perf: 48, strat: 'gamif',
+      hyp: true, tab: 'cat', layer: 2
+    };
+    this.mx = -9999; this.my = -9999; this.mnx = 0; this.mny = 0;
+    this.hovering = false; this.target = 0; this.raf2 = 0;
+    this.cvRef = (el) => { if (el) this.cv = el; };
+  }
+
+  prefDark(pref) {
+    if (pref === 'dark') return true;
+    if (pref === 'light') return false;
+    try { return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches); } catch (e) { return false; }
+  }
+
+  componentDidMount() {
+    this.setState({ dark: this.prefDark(this.props.startTheme ?? 'auto') });
+    this.timer = setInterval(() => {
+      if (this.state.auto) this.setState({ step: (this.state.step + 1) % 5 });
+    }, 4600);
+    this.initViz();
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.startTheme !== this.props.startTheme) {
+      this.setState({ dark: this.prefDark(this.props.startTheme ?? 'auto') });
+    }
+    const d = this.isDark();
+    if (d !== this.vizDark) { this.vizDark = d; if (!this.animOn()) this.frame(performance.now()); }
+    if (prev.motion !== this.props.motion && this.tick) {
+      if (this.animOn() && !this.raf2) this.raf2 = requestAnimationFrame(this.tick);
+      if (!this.animOn()) { this.goStage(2, true); this.frame(performance.now()); }
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+    clearTimeout(this.vizRetry);
+    if (this.raf2) cancelAnimationFrame(this.raf2);
+    try { if (this.ro) this.ro.disconnect(); if (this.io) this.io.disconnect(); } catch (e) {}
+    if (this.fitH) window.removeEventListener('resize', this.fitH);
+  }
+
+  isDark() { return this.state.dark === null ? this.props.startTheme === 'dark' : this.state.dark; }
+
+  toggleTheme(e) {
+    const next = !this.isDark();
+    try {
+      const r = e.currentTarget.getBoundingClientRect();
+      document.documentElement.style.setProperty('--vtx', (r.left + r.width / 2) + 'px');
+      document.documentElement.style.setProperty('--vty', (r.top + r.height / 2) + 'px');
+    } catch (err) {}
+    const apply = () => new Promise((res) => this.setState({ dark: next }, res));
+    let reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (err) {}
+    if (document.startViewTransition && !reduce && this.props.motion !== false) {
+      try { document.startViewTransition(apply); return; } catch (err) {}
+    }
+    apply();
+  }
+
+  onHeroMove(e) {
+    this.mnx = e.clientX / (window.innerWidth || 1) - 0.5;
+    this.mny = e.clientY / (window.innerHeight || 1) - 0.5;
+    const cv = this.cv;
+    if (!cv) return;
+    const r = cv.getBoundingClientRect();
+    const k = cv.clientWidth / (r.width || 1);
+    this.mx = (e.clientX - r.left) * k;
+    this.my = (e.clientY - r.top) * k;
+    const inside = this.mx >= 0 && this.my >= 0 && this.mx <= cv.clientWidth && this.my <= cv.clientHeight;
+    this.setHover(inside);
+  }
+
+  onHeroLeave() {
+    this.mx = -9999; this.my = -9999; this.mnx = 0; this.mny = 0;
+    this.setHover(false);
+  }
+
+  setHover(on) {
+    if (on === this.hovering) return;
+    const now = performance.now();
+    if (on) this.pauseAt = now;
+    else if (this.pauseAt) { this.stageT += now - this.pauseAt; this.pauseAt = 0; }
+    this.hovering = on;
+    this.setState({ vpaused: on });
+  }
+
+  animOn() {
+    if (this.props.motion === false) return false;
+    try { return !window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return true; }
+  }
+
+  initViz() {
+    const cv = this.cv || document.getElementById('twin-canvas');
+    if (!cv || !cv.getContext) {
+      this.vizTries = (this.vizTries || 0) + 1;
+      if (this.vizTries < 40) this.vizRetry = setTimeout(() => this.initViz(), 150);
+      return;
+    }
+    this.cv = cv;
+    this.ctx = cv.getContext('2d');
+    const N = 1600; this.N = N;
+    this.shapes = [this.shapeCloud(N), this.shapeHelix(N), this.shapeLogo(N), this.shapeWave(N)];
+    this.pos = new Float32Array(this.shapes[0].p);
+    this.from = new Float32Array(this.shapes[0].p);
+    this.col = new Uint8Array(this.shapes[0].c);
+    this.colFrom = new Uint8Array(this.shapes[0].c);
+    this.jit = new Float32Array(N * 3);
+    for (let i = 0; i < N * 3; i++) this.jit[i] = (Math.random() - 0.5) * 1.1;
+    this.target = 0; this.morphT = -1; this.stageT = performance.now();
+    this.yaw = 0; this.pitch = 0.18; this.scl = 1; this.mxS = 0; this.myS = 0;
+    this.vizDark = this.isDark();
+    this.pairs = this.buildPairs(this.shapes[0].p);
+    this.tick = (t) => {
+      this.raf2 = 0;
+      this.frame(t);
+      if (this.visible !== false && this.animOn()) this.raf2 = requestAnimationFrame(this.tick);
+    };
+    this.fit();
+    try { this.ro = new ResizeObserver(() => this.fit()); this.ro.observe(cv); }
+    catch (e) { this.fitH = () => this.fit(); window.addEventListener('resize', this.fitH); }
+    try {
+      this.io = new IntersectionObserver((en) => {
+        this.visible = en[0].isIntersecting;
+        if (this.visible && !this.raf2 && this.animOn()) this.raf2 = requestAnimationFrame(this.tick);
+      });
+      this.io.observe(cv);
+    } catch (e) {}
+    this.last = performance.now();
+    if (this.animOn()) this.raf2 = requestAnimationFrame(this.tick);
+    else { this.goStage(2, true); this.frame(performance.now()); }
+  }
+
+  fit() {
+    const cv = this.cv; if (!cv) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.W = cv.clientWidth; this.H = cv.clientHeight; this.dpr = dpr;
+    cv.width = Math.max(1, Math.round(this.W * dpr));
+    cv.height = Math.max(1, Math.round(this.H * dpr));
+    if (!this.animOn()) this.frame(performance.now());
+  }
+
+  goStage(i, instant) {
+    if (!this.shapes) return;
+    const s = this.shapes[i];
+    this.from.set(this.pos); this.colFrom.set(this.col);
+    this.target = i;
+    if (instant) { this.pos.set(s.p); this.col.set(s.c); this.morphT = -1; }
+    else this.morphT = performance.now();
+    this.stageT = performance.now();
+    if (this.hovering) this.pauseAt = this.stageT;
+    this.pairs = this.buildPairs(s.p);
+    if (this.state.vstage !== i) this.setState({ vstage: i });
+  }
+
+  mkPal(dark) {
+    const A = dark ? [[108, 155, 255], [63, 224, 217], [172, 132, 255]] : [[38, 98, 214], [16, 168, 163], [122, 66, 245]];
+    const out = [];
+    for (let i = 0; i < 12; i++) {
+      const u = i / 11, seg = u < 0.5 ? 0 : 1, k = u < 0.5 ? u * 2 : (u - 0.5) * 2;
+      const a = A[seg], b = A[seg + 1];
+      out.push('rgb(' + Math.round(a[0] + (b[0] - a[0]) * k) + ',' + Math.round(a[1] + (b[1] - a[1]) * k) + ',' + Math.round(a[2] + (b[2] - a[2]) * k) + ')');
+    }
+    out.push(dark ? 'rgb(222,231,255)' : 'rgb(11,26,59)');
+    return out;
+  }
+
+  buildPairs(p) {
+    const HN = 170, hubs = [], pairs = [];
+    for (let j = 0; j < HN; j++) hubs.push((j * 11) % this.N);
+    for (let a = 0; a < HN; a++) {
+      const i = hubs[a] * 3;
+      let b1 = -1, b2 = -1, d1 = 1e9, d2 = 1e9;
+      for (let b = 0; b < HN; b++) {
+        if (b === a) continue;
+        const k = hubs[b] * 3;
+        const dx = p[i] - p[k], dy = p[i + 1] - p[k + 1], dz = p[i + 2] - p[k + 2];
+        const d = dx * dx + dy * dy + dz * dz;
+        if (d < d1) { d2 = d1; b2 = b1; d1 = d; b1 = b; } else if (d < d2) { d2 = d; b2 = b; }
+      }
+      if (b1 >= 0 && d1 < 0.25) pairs.push(hubs[a], hubs[b1]);
+      if (b2 >= 0 && d2 < 0.25) pairs.push(hubs[a], hubs[b2]);
+    }
+    return pairs;
+  }
+
+  shapeCloud(N) {
+    const p = new Float32Array(N * 3), c = new Uint8Array(N);
+    const M = Math.round(N * 0.72), ga = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < N; i++) {
+      let x, y, z, r;
+      if (i < M) {
+        y = 1 - (i / (M - 1)) * 2;
+        const rad = Math.sqrt(1 - y * y), th = ga * i;
+        x = Math.cos(th) * rad; z = Math.sin(th) * rad;
+        r = 1 + (Math.random() - 0.5) * 0.07;
+      } else {
+        const u = Math.random() * 2 - 1, ph = Math.random() * Math.PI * 2, s = Math.sqrt(1 - u * u);
+        x = s * Math.cos(ph); y = u; z = s * Math.sin(ph);
+        r = 0.3 + Math.random() * 0.5;
+      }
+      p[i * 3] = x * r; p[i * 3 + 1] = y * r; p[i * 3 + 2] = z * r;
+      c[i] = Math.min(11, Math.max(0, Math.round((y * 0.5 + 0.5) * 11)));
+    }
+    return { p, c };
+  }
+
+  shapeHelix(N) {
+    const p = new Float32Array(N * 3), c = new Uint8Array(N);
+    const S = Math.floor(N * 0.74), K = 28, R = N - S, per = Math.ceil(R / K), TURN = Math.PI * 2 * 2.4;
+    for (let i = 0; i < N; i++) {
+      let x, y, z, ci;
+      if (i < S) {
+        const s = i % 2, t = Math.floor(i / 2) / (S / 2);
+        const ang = t * TURN + s * Math.PI;
+        x = Math.cos(ang) * 0.58 + (Math.random() - 0.5) * 0.06;
+        z = Math.sin(ang) * 0.58 + (Math.random() - 0.5) * 0.06;
+        y = (t - 0.5) * 2.5 + (Math.random() - 0.5) * 0.03;
+        ci = s === 0 ? 12 : Math.min(11, Math.round(t * 11));
+      } else {
+        const j = i - S, rk = j % K, q = Math.floor(j / K) / Math.max(1, per - 1);
+        const t = (rk + 0.5) / K, ang = t * TURN;
+        const ax = Math.cos(ang) * 0.58, az = Math.sin(ang) * 0.58;
+        x = ax + (-2 * ax) * q; z = az + (-2 * az) * q;
+        y = (t - 0.5) * 2.5;
+        ci = Math.min(11, Math.round(q * 11));
+      }
+      p[i * 3] = x; p[i * 3 + 1] = y; p[i * 3 + 2] = z; c[i] = ci;
+    }
+    return { p, c };
+  }
+
+  shapeLogo(N) {
+    const L = [153,306,0,243,102,0,75,261,2,315,294,1,234,270,1,180,276,2,327,189,1,294,135,1,327,90,2,231,81,0,237,126,0,207,90,0,135,162,0,297,69,1,303,75,2,243,66,0,270,69,2,357,156,1,207,72,0,330,111,1,90,273,2,156,201,0,192,201,0,198,282,1,222,99,0,318,57,2,201,141,0,357,198,1,75,273,2,117,123,0,192,99,0,174,57,0,192,243,0,357,90,2,267,225,1,273,177,1,294,66,1,282,243,1,438,141,3,129,171,0,105,114,0,315,90,1,48,189,2,30,243,2,189,213,0,267,258,1,39,270,2,192,237,0,324,57,2,276,225,1,27,216,2,126,60,0,315,111,1,321,132,1,315,81,2,297,240,1,126,105,0,321,141,1,420,33,2,312,129,2,69,267,2,348,234,1,144,219,0,120,120,0,399,192,1,306,108,2,216,267,1,309,303,1,234,165,0,189,39,0,252,174,0,240,183,0,309,111,2,213,135,0,96,261,2,204,108,0,294,111,1,417,165,1,372,171,1,108,84,0,303,303,1,51,192,2,273,252,1,282,213,1,423,42,2,315,105,1,261,282,1,333,243,1,357,147,1,375,162,1,297,147,1,252,150,0,171,36,0,408,186,1,48,237,2,201,180,0,135,135,0,366,174,1,360,156,1,114,96,0,228,252,2,219,222,0,204,126,0,123,81,0,273,246,1,378,57,2,99,81,0,216,198,0,291,153,1,339,216,1,159,135,2,177,75,0,189,195,0,270,141,0,270,282,1,276,168,1,288,42,1,147,192,0,213,291,0,435,147,3,153,207,0,330,87,2,408,93,3,321,57,2,171,102,0,315,48,1,411,180,1,177,213,0,174,198,0,171,273,2,198,216,0,123,96,0,249,258,1,336,171,1,327,183,1,159,117,0,351,135,1,183,126,0,135,96,0,381,66,2,291,141,1,159,159,0,180,27,2,306,72,2,342,132,1,204,141,0,186,261,2,408,96,3,345,171,2,270,135,0,441,150,1,87,282,2,60,177,2,183,240,0,105,123,1,288,285,1,333,156,1,192,36,0,165,93,0,291,216,1,108,114,0,126,276,2,312,90,1,249,63,0,108,129,2,315,180,1,141,183,0,261,210,1,258,237,1,369,177,1,66,177,2,354,192,1,378,174,1,207,303,2,99,117,2,336,204,1,249,57,0,171,252,0,159,309,0,159,156,0,225,141,0,195,39,0,195,234,0,201,96,0,402,33,2,120,204,0,249,123,0,273,132,0,288,135,1,333,177,1,243,150,0,234,264,1,285,246,1,126,54,1,261,249,1,306,189,1,153,132,1,144,51,0,204,201,0,186,255,0,204,45,0,195,138,0,417,135,1,156,132,1,207,243,0,351,84,2,138,57,0,129,165,0,36,207,2,138,69,0,168,312,2,237,186,0,177,258,0,129,120,0,297,273,1,132,150,0,324,312,1,282,51,1,156,159,0,369,225,1,150,267,2,294,213,1,285,105,2,177,273,2,168,36,0,309,207,1,405,189,1,48,261,2,237,201,0,351,216,1,366,135,2,117,192,0,249,72,0,156,57,0,156,39,0,225,90,0,129,198,0,114,174,0,219,234,0,321,63,2,330,171,1,225,198,0,192,288,0,174,33,0,429,69,3,336,114,2,165,189,0,105,75,0,321,99,1,60,258,2,198,303,1,123,102,0,174,156,0,438,153,3,207,225,0,177,174,0,342,93,2,105,99,0,225,51,0,228,135,0,327,87,2,234,249,2,285,126,2,123,270,2,231,237,1,222,243,0,54,204,2,210,39,0,198,243,0,270,201,1,117,111,0,117,285,2,195,246,0,282,84,1,279,276,1,150,159,0,276,240,2,291,303,1,312,165,1,282,96,2,183,99,0,237,261,1,213,195,0,57,183,2,171,294,0,234,120,0,339,66,2,258,249,1,45,192,2,207,228,0,165,84,0,108,99,0,330,174,1,54,207,2,186,288,0,237,159,0,183,78,0,210,90,0,228,291,0,27,234,2,342,87,2,315,144,1,198,147,0,279,63,1,246,57,0,36,261,2,183,162,0,393,201,1,432,159,3,195,195,0,411,168,3,42,255,2,171,186,0,174,78,0,156,42,0,339,84,2,171,285,1,324,81,2,234,222,2,147,186,0,312,228,2,318,195,1,306,117,1,411,189,1,174,135,0,33,219,2,258,147,0,288,105,1,105,90,0,330,303,3,186,243,0,210,108,0,312,252,1,126,66,0,264,135,0,330,168,1,183,45,0,312,216,1,153,186,0,231,63,0,210,33,0,177,117,0,321,300,1,336,66,2,363,225,1,132,132,0,366,156,1,423,135,3,195,66,0,132,141,0,363,87,2,108,66,1,255,276,2,216,99,0,138,117,0,132,75,0,309,282,1,282,294,1,279,135,2,363,138,1,228,186,0,198,201,0,330,213,1,63,267,2,333,183,1,315,201,1,168,192,0,339,237,1,300,252,1,216,231,0,126,93,0,147,312,2,285,120,2,420,48,2,267,111,0,150,147,0,183,192,0,288,300,1,363,117,2,345,78,2,231,96,0,306,270,1,438,69,3,309,147,1,309,195,1,402,39,2,351,75,2,213,252,1,339,99,2,48,246,2,279,288,1,210,300,1,408,114,1,153,72,0,297,186,1,147,141,0,156,300,2,93,78,0,132,162,0,369,201,1,141,222,0,144,135,1,201,213,0,306,255,1,117,132,0,423,45,2,180,282,1,366,132,2,180,144,1,303,258,1,414,177,1,309,123,2,327,144,1,345,60,2,195,129,0,324,60,2,219,213,0,105,288,2,105,267,2,387,198,1,300,216,1,303,99,1,369,66,2,54,195,2,171,246,0,336,312,3,66,276,2,180,195,0,189,291,0,306,276,1,390,165,2,417,24,2,162,42,0,216,63,0,255,84,0,282,105,2,135,93,0,132,153,0,219,195,0,159,204,0,231,69,0,312,102,1,228,258,1,135,168,0,237,165,0,174,255,0,288,210,1,351,147,1,216,213,0,150,111,0,369,171,1,291,60,1,51,231,2,231,192,0,357,141,1,135,231,0,297,138,1,117,177,0,198,111,0,195,243,0,108,285,2,228,78,0,189,69,0,426,132,3,294,126,1,186,27,2,180,72,0,120,231,2,324,243,1,216,162,0,183,93,0,360,129,1,186,282,1,351,180,1,228,243,0,294,231,1,60,252,2,411,27,2,246,261,1,231,291,1,171,147,0,198,63,0,117,213,2,96,81,0,312,285,1,183,234,0,321,240,1,174,192,0,234,153,0,303,294,1,51,252,2,177,267,2,327,51,2,345,111,2,360,189,1,279,279,1,441,144,1,423,123,3,336,231,1,309,63,1,117,171,0,162,168,0,324,180,1,168,183,0,111,285,2,399,96,3,249,51,1,255,174,0,432,126,1,246,81,0,117,108,0,174,294,0,318,108,1,285,174,1,171,108,0,246,255,1,177,165,0,210,42,0,255,192,2,306,66,1,264,204,1,222,249,0,198,273,1,153,228,0,267,162,0,369,57,2,129,132,0,228,144,0,153,195,0,195,180,0,141,75,0,345,219,1,309,153,1,351,159,2,237,264,1,165,270,2,210,276,1,255,138,0,342,57,2,198,138,0,258,186,2,327,69,2,426,165,1,210,207,0,219,114,0,216,261,2,288,255,1,267,66,2,282,174,1,201,186,0,216,300,2,129,162,0,273,93,1,156,45,0,132,69,0,234,177,0,192,231,0,291,90,1,72,267,2,333,114,1,429,72,3,171,75,0,150,120,0,66,255,2,114,177,0,90,81,0,225,48,0,234,117,0,216,294,0,306,282,1,141,111,0,387,57,2,180,252,0,174,108,0,318,270,2,204,282,1,84,261,2,432,162,1,411,93,3,228,48,0,159,63,0,192,207,0,123,114,0,60,246,2,159,297,2,132,201,0,324,114,1,123,285,2,378,165,1,342,102,2,51,264,2,405,27,2,327,96,1,228,153,0,54,189,2,432,156,3,234,42,0,270,165,2,252,135,0,42,222,2,189,186,0,207,93,0,357,108,2,285,300,2,276,144,2,273,72,2,264,117,0,126,156,0,141,186,0,177,51,0,354,213,1,273,78,2,351,183,1,204,237,0,258,225,1,30,249,2,114,132,1,222,120,0,105,96,0,177,108,0,303,90,1,330,192,1,333,234,1,318,288,1,330,69,2,393,183,2,252,138,0,294,72,1,228,225,0,228,51,0,123,192,0,369,210,1,363,177,1,315,240,1,378,204,1,162,81,0,312,174,1,93,270,2,438,57,2,411,192,3,312,150,1,159,84,0,231,144,0,294,75,1,42,267,2,90,279,2,135,72,0,138,48,0,234,96,0,147,222,0,210,273,1,135,240,2,399,186,1,288,168,1,279,69,1,186,168,0,105,126,2,396,189,1,378,183,2,432,168,3,156,117,0,285,279,1,315,249,1,297,117,1,129,138,0,267,135,0,411,36,2,162,156,0,288,252,1,195,255,1,414,42,2,168,240,0,30,264,2,156,282,2,177,39,0,336,69,2,306,201,1,333,111,1,201,84,0,297,39,2,255,261,1,363,153,1,81,171,2,147,81,0,249,132,0,336,177,1,165,267,2,75,177,2,117,195,0,363,192,1,261,183,2,330,219,2,30,258,2,411,162,1,201,57,0,306,81,2,357,222,1,177,60,0,201,243,0,306,252,1,135,192,0,330,198,1,159,201,0,195,168,1,354,132,1,294,285,1,168,174,0,222,141,0,216,111,0,54,267,2,162,186,0,168,258,2,219,258,2,219,249,0,201,150,0,372,117,2,141,102,0,54,279,2,123,219,0,168,150,0,372,57,2,45,219,2,192,165,1,135,270,2,33,237,2,294,297,1,360,117,2,195,249,0,180,120,0,321,210,1,129,231,0,219,129,0,126,207,0,354,162,2,267,231,1,300,147,1,144,144,0,120,63,0,270,246,1,222,234,0,201,270,1,150,225,0,198,108,0,150,282,2,294,195,2,390,186,1,255,252,1,312,264,1,114,69,0,330,132,1,279,72,1,162,174,0,219,141,0,237,132,0,216,183,0,372,195,1,369,234,1,261,198,1,315,84,2,327,195,1,66,279,2,198,213,0,186,297,0,120,108,0,354,138,1,267,261,1,138,93,0,129,108,1,189,153,2,42,231,2,144,108,0,414,93,3,366,147,2,111,111,0,258,267,1,195,78,0,312,81,2,378,192,2,192,189,0,183,258,0,87,267,2,348,123,1,270,156,0,225,279,0,228,198,0,174,306,0,408,30,2,156,207,0,357,72,2,48,216,2,315,225,2,321,60,2,303,264,1,297,252,1,252,81,0,36,255,2,39,222,2,138,279,2,270,72,2,153,162,0,75,258,2,261,63,1,258,54,2,396,33,2,168,210,0,369,132,2,285,273,1,240,276,1,147,129,2,192,273,2,165,36,0,117,78,0,153,312,1,423,177,1,423,33,2,438,147,3,234,108,0,345,165,2,48,267,2,405,102,1,240,153,0,351,222,1,231,54,0,198,225,0,438,66,3,261,234,1,57,201,2,396,30,2,306,222,1,198,129,0,423,69,1,198,81,0,48,276,2,321,150,1,336,306,2,243,72,0,276,270,1,135,123,2,297,213,1,111,171,0,150,153,0,318,264,1,159,147,0,42,204,2,300,195,1,168,114,0,417,117,1,210,303,2,285,234,2,150,129,1,321,216,1,312,159,1,177,264,2,366,183,1,144,57,0,435,150,1,63,186,2,213,168,0,294,249,1,414,162,3,291,39,2,138,132,0,129,150,0,147,135,1,321,174,1,273,291,1,225,234,0,153,120,0,174,273,2,207,255,1,279,294,1,348,156,1,321,249,1,120,126,0,171,291,0,144,93,0,207,234,0,285,153,1,111,120,0,201,156,0,225,108,0,297,72,1,390,162,2,252,216,2,306,120,1,303,144,1,27,249,2,282,66,1,147,84,0,183,60,0,369,165,1,156,270,2,339,192,1,72,279,2,159,198,0,162,63,0,132,279,2,123,276,2,294,165,1,423,150,3,294,99,1,126,171,0,321,312,1,69,270,2,351,96,2,129,177,0,312,276,1,60,282,2,240,165,0,195,99,0,228,234,0,381,192,1,291,258,1,279,264,1,129,216,0,264,42,2,357,138,1,363,105,2,204,165,0,222,186,0,72,276,2,372,114,2,246,87,0,153,42,0,402,177,3,177,276,2,234,57,0,339,132,1,348,84,2,270,198,1,81,255,2,189,246,0,150,75,0,261,207,1,327,180,1,144,234,0,177,240,0,165,78,0,162,36,0,324,216,1,189,150,2,228,210,0,348,138,1,333,90,2,291,261,1,300,267,1,213,189,0,345,126,1,45,201,2,399,99,1,78,276,2,252,60,0,219,99,0,138,120,1,237,276,0,249,273,2,357,201,1,255,186,0,285,282,1,102,282,2,267,54,1,357,168,1,210,141,0,300,96,1,396,90,1,210,159,0,183,228,0,276,90,2,225,57,0,180,69,0,153,45,0,135,165,0,288,78,1,327,114,1,180,42,0,174,183,0,387,192,3,219,192,0,183,201,0,414,129,1,237,252,2,180,168,0,288,294,1,312,237,1,171,168,0,108,273,2,300,234,1,183,69,0,201,231,0,123,189,0,288,60,1,369,135,2,348,108,2,441,141,1,135,210,0,81,258,2,252,132,0,405,90,3,255,258,1,195,279,1,174,165,0,411,186,1,222,231,0,327,309,1,159,48,0,306,264,1,258,273,1,153,180,0,210,255,1,408,54,2,180,216,0,132,96,0,201,282,1,213,159,0,186,150,2,219,147,0,270,222,1,159,93,0,153,117,0,315,177,1,348,201,1,309,168,1,198,252,0,228,165,0,183,42,0,303,267,1,210,219,0,204,144,0,321,69,2,243,177,0,126,63,0,423,153,3,165,183,0,186,237,0,165,243,1,291,207,1,213,48,0,369,63,2,252,96,0,246,282,2,165,99,0,246,270,1,216,171,0,357,102,2,201,237,0,177,141,1,213,105,0,249,108,0,351,177,1,258,204,1,300,84,1,201,42,0,246,51,0,297,66,1,336,129,1,342,90,2,144,90,0,159,195,0,246,102,0,231,165,0,111,267,2,174,297,0,276,267,1,312,279,1,264,108,0,324,210,1,291,123,1,138,267,2,402,90,3,357,231,1,330,186,1,330,180,1,96,282,2,321,48,1,258,60,1,351,120,1,147,168,0,96,90,2,222,162,0,126,96,0,213,33,0,285,207,1,300,117,1,336,147,1,342,111,1,282,297,1,168,156,0,222,195,0,204,210,0,135,156,0,114,291,2,381,162,1,294,108,1,57,180,2,249,261,1,240,195,0,108,105,0,264,87,0,243,174,0,195,141,0,402,102,1,330,162,1,159,123,0,42,213,2,192,72,0,375,213,1,324,108,1,213,153,0,351,174,1,132,57,0,270,54,1,363,162,1,261,51,1,261,57,2,300,69,1,63,249,2,234,123,0,249,192,0,186,189,0,354,147,1,192,159,1,198,144,0,42,216,2,432,141,3,351,189,1,291,201,1,339,165,1,381,201,1,201,114,0,225,258,1,177,132,0,156,273,2,291,210,1,255,87,0,273,153,1,276,180,1,177,111,0,186,123,0,378,219,1,66,258,2,363,102,1,237,81,0,114,201,2,306,240,1,219,60,0,375,216,1,168,168,0,228,132,0,411,90,3,204,183,0,240,51,0,147,219,0,147,144,0,174,279,2,336,189,1,267,90,0,198,105,0,201,60,0,192,96,0,246,285,2,207,288,0,156,102,0,210,240,0,303,81,1,150,264,2,432,78,1,180,102,0,246,78,0,162,279,2,297,144,1,153,225,0,144,81,0,126,72,0,165,276,2,276,252,1,330,207,1,216,102,0,291,252,1,117,207,1,294,93,1,126,117,0,69,279,2,186,231,0,285,243,1,420,120,1,237,249,2,123,177,0,261,90,0,279,228,1,201,108,0,297,165,1,354,99,2,267,279,1,201,48,0,123,111,0,270,183,1,105,276,2,303,177,1,183,252,0,225,87,0,228,126,0,198,180,0,213,123,0,240,66,0,144,45,0,375,222,1,225,171,0,309,162,1,249,144,0,405,192,1,315,138,1,159,81,0,393,192,1,309,42,2,420,126,3,360,183,1,114,78,0,408,33,2,417,177,1,411,177,3,369,207,1,333,186,1,405,33,2,300,87,1,411,165,1,222,177,0,294,123,1,168,42,0,150,156,0,357,117,2,75,282,2,324,300,1,135,126,1,360,165,1,261,153,0,279,222,1,333,81,2,339,72,2,297,93,1,279,93,2,150,45,0,222,135,0,303,93,1,405,36,2,150,270,2,132,144,0,366,84,2,255,183,0,276,45,1,165,213,0,363,141,2,369,204,1,231,294,2,258,213,1,186,63,0,276,258,1,417,138,1,123,150,0,177,252,0,126,216,0,162,273,2,180,231,0,243,162,0,84,162,2,243,108,0,63,183,2,303,168,1,285,54,1,144,96,0,252,93,0,342,177,1,372,174,1,159,231,0,351,231,1,408,42,2,306,216,1,192,303,0,186,222,0,348,150,1,363,201,1,366,108,2,288,189,2,177,159,0,414,54,2,111,192,2,279,66,1,180,150,0,408,168,1,141,78,0,261,225,1,315,288,1,255,144,0,300,156,1,165,177,0,414,165,3,66,180,2,252,177,0,315,219,1,300,81,1,210,234,0,162,75,0,276,75,1,156,60,0,180,222,0,354,135,1,321,165,1,426,177,3,120,99,0,408,189,3,144,48,0,267,216,1,63,258,2,321,180,1,195,276,1,339,174,1,324,174,1,186,117,0,405,201,1,363,111,2,222,204,0,237,114,0,168,204,0,216,189,0,189,96,0,165,120,0,276,63,1,261,252,1,270,129,0,303,273,1,372,213,1,384,201,1,168,294,0,63,273,2,225,63,0,261,180,1,357,96,2,228,156,0,78,267,2,231,99,0,297,90,1,342,237,1,219,276,1,309,243,1,99,264,2,312,84,2,162,69,0,276,249,1,171,90,0,339,234,1,117,168,0,45,234,2,204,117,0,165,273,2,348,198,1,315,156,1,183,123,0,90,288,2,249,93,0,258,156,0,210,267,2,333,141,1,219,171,0,309,66,2,294,183,1,243,135,0,180,180,0,357,84,2,285,57,1,414,120,3,231,114,0,231,222,1,375,180,1,306,243,1,207,141,0,216,108,0,219,93,0,165,174,0,237,108,0,291,72,1,222,207,0,219,267,1,297,231,2,159,234,0,231,204,0,288,45,1,123,66,0,87,75,2,198,39,0,222,174,0,156,237,2,324,159,1,267,69,2,360,228,1,219,186,0,138,165,0,402,54,2,318,222,2,240,291,2,240,192,0,363,150,1,39,255,2,303,186,1,225,93,0,357,75,2,51,240,2,60,273,2,141,276,2,207,267,2,270,99,0,261,72,0,117,201,0,156,210,0,219,174,0,306,204,1,300,276,1,225,36,1,345,168,2,336,144,1,132,93,0,273,51,1,153,66,0,36,213,2,120,57,2,183,213,0,345,186,1,324,315,1,354,75,2,351,219,1,99,288,2,129,159,0,225,177,0,195,156,1,240,120,0,54,264,2,405,198,3,201,153,0,162,159,0,270,162,1,213,186,0,414,99,2,345,180,1,402,198,1,138,114,0,297,306,1,186,99,0,318,207,1,237,258,1,261,237,1,54,246,2,342,72,2,51,249,2,189,189,0,282,123,2,267,237,1,294,222,1,102,117,1,192,153,2,87,264,2,285,288,1,291,174,1,339,69,2,438,165,1,297,135,1,252,225,1,57,255,2,351,243,2,282,264,1,42,249,2,324,222,1,132,66,0,273,39,2,129,84,0,309,306,1,258,210,1,219,288,0,186,186,0,39,237,2,306,198,1,228,294,1,57,243,2,36,252,2,345,183,1,360,150,1,273,228,1,192,126,0,177,225,0,333,93,2,117,162,0,210,66,0,117,144,2,177,84,0,387,195,1,228,66,0,333,228,1,282,75,1,216,210,0,150,231,0,351,126,1,309,141,1,27,225,2,126,99,0,321,237,1,69,261,2,222,102,0,318,105,1,285,102,1,138,186,0,264,150,0,165,108,0,204,147,0,129,66,0,306,102,2,240,69,0,321,90,1,156,165,0,204,174,0,117,210,1,363,198,1,174,75,0,441,147,1,288,114,1,240,177,0,273,267,1,315,273,1,384,204,1,411,126,1,333,99,1,237,78,0,276,78,2,210,105,0,174,126,0,120,93,0,168,219,0,126,231,0,351,93,2,105,69,0,357,177,1,237,168,0,276,108,1,324,69,2,297,234,1,132,78,0,315,123,1,297,300,1,279,282,1,57,279,2,138,189,0,204,177,0,147,123,0,276,132,1,123,207,0,216,54,0,213,144,0,396,186,1,81,282,2,279,192,1,213,276,1,216,93,0,156,69,0,327,198,1,366,90,2,177,303,0,294,114,1,363,78,2,330,99,1,417,153,1,252,195,2,117,180,0,243,198,0,327,228,1,273,60,1,183,297,0,183,267,2,267,246,2,207,153,0,267,72,2,261,276,1,195,189,0,396,192,1,252,156,0,315,258,1,111,198,2,66,174,2,252,180,0,360,240,1,102,276,2,405,45,2,174,207,0,147,282,2,366,138,2,213,36,0,39,231,2,114,210,2,51,270,2,159,138,1,240,261,1,261,78,0,117,87,0,435,63,3,291,99,1];
+    const p = new Float32Array(N * 3), c = new Uint8Array(N);
+    const n = L.length / 3;
+    for (let i = 0; i < N; i++) {
+      const j = (i % n) * 3;
+      const x = (L[j] - 232) / 232 * 1.3, y = (L[j + 1] - 172) / 232 * 1.3, k = L[j + 2];
+      p[i * 3] = x; p[i * 3 + 1] = y;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 0.14 + (k === 0 ? 0.07 : -0.05);
+      const u = Math.min(1, Math.max(0, (x + 1.3) / 2.6));
+      c[i] = k === 0 ? 12 : k === 1 ? Math.round(u * 5) : k === 2 ? 5 + Math.round(u * 2) : 10 + Math.round(u);
+    }
+    return { p, c };
+  }
+
+  shapeWave(N) {
+    const p = new Float32Array(N * 3), c = new Uint8Array(N), G = 40;
+    for (let i = 0; i < N; i++) {
+      const gx = i % G, gz = Math.floor(i / G);
+      const x = (gx / (G - 1) - 0.5) * 2.7, z = (gz / (G - 1) - 0.5) * 2.7;
+      const y = -0.5 * Math.exp(-((x - 0.35) * (x - 0.35) + (z + 0.2) * (z + 0.2)) * 2.1) + 0.11 * Math.sin(x * 3.1) * Math.cos(z * 2.7);
+      p[i * 3] = x; p[i * 3 + 1] = y; p[i * 3 + 2] = z;
+      const h = Math.min(1, Math.max(0, (-y + 0.12) / 0.62));
+      c[i] = Math.round(h * 11);
+    }
+    return { p, c };
+  }
+
+  frame(t) {
+    const ctx = this.ctx;
+    if (!ctx || !this.W || !this.H) return;
+    const N = this.N, P = this.pos, tgt = this.shapes[this.target];
+    const dt = Math.min(64, Math.max(0, t - (this.last || t))); this.last = t;
+    const anim = this.animOn();
+    if (anim && !this.hovering && t - this.stageT > 5200) this.goStage((this.target + 1) % 4);
+
+    if (this.morphT > 0) {
+      const k0 = (t - this.morphT) / 1900;
+      if (k0 >= 1.35) { P.set(tgt.p); this.col.set(tgt.c); this.morphT = -1; }
+      else {
+        const F0 = this.from, T = tgt.p, J = this.jit;
+        for (let i = 0; i < N; i++) {
+          let k = k0 - ((i % 97) / 97) * 0.35;
+          k = k < 0 ? 0 : k > 1 ? 1 : k;
+          const e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+          const b = Math.sin(Math.PI * k);
+          const i3 = i * 3;
+          P[i3] = F0[i3] + (T[i3] - F0[i3]) * e + J[i3] * b;
+          P[i3 + 1] = F0[i3 + 1] + (T[i3 + 1] - F0[i3 + 1]) * e + J[i3 + 1] * b;
+          P[i3 + 2] = F0[i3 + 2] + (T[i3 + 2] - F0[i3 + 2]) * e + J[i3 + 2] * b;
+          this.col[i] = k > 0.5 ? tgt.c[i] : this.colFrom[i];
+        }
+      }
+    }
+
+    const st = this.target, TWO = Math.PI * 2;
+    if (anim) this.yaw += [0.00022, 0.00045, 0, 0.0001][st] * dt;
+    if (st === 2) { const g = Math.round(this.yaw / TWO) * TWO; this.yaw += (g - this.yaw) * 0.05; }
+    this.pitch += ([0.2, 0.06, 0, 0.62][st] - this.pitch) * 0.04;
+    this.scl += ([1, 1.02, 1.1, 1.16][st] - this.scl) * 0.05;
+    this.mxS += (this.mnx - this.mxS) * 0.06; this.myS += (this.mny - this.myS) * 0.06;
+    const wob = st === 2 && anim ? Math.sin(t * 0.0008) * 0.3 : 0;
+    const yaw = this.yaw + wob + this.mxS * 1.1, pitch = this.pitch + this.myS * 0.6;
+    const cY = Math.cos(yaw), sY = Math.sin(yaw), cP = Math.cos(pitch), sP = Math.sin(pitch);
+
+    const W = this.W, H = this.H, dpr = this.dpr || 1;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    const dark = !!this.vizDark;
+    const pal = dark ? (this.palD || (this.palD = this.mkPal(true))) : (this.palL || (this.palL = this.mkPal(false)));
+    ctx.globalCompositeOperation = dark ? 'lighter' : 'source-over';
+    const sc = Math.min(W, H - 80) * 0.36 * this.scl, cx = W / 2, cy = (H - 60) / 2 + 20, FOV = 3.4;
+    const mx = this.mx, my = this.my, RR = 120, RR2 = RR * RR;
+    const wave = st === 3 && this.morphT < 0 && anim;
+    if (!this.sx || this.sx.length !== N) { this.sx = new Float32Array(N); this.sy = new Float32Array(N); }
+    const SX = this.sx, SY = this.sy, C = this.col;
+    for (let i = 0; i < N; i++) {
+      const i3 = i * 3;
+      const x = P[i3], z = P[i3 + 2];
+      let y = P[i3 + 1];
+      if (wave) y += Math.sin(t * 0.0016 + x * 3.2 + z * 2.1) * 0.07;
+      const x1 = x * cY - z * sY, z1 = x * sY + z * cY;
+      const y2 = y * cP - z1 * sP, z2 = y * sP + z1 * cP;
+      const f = FOV / (FOV + z2);
+      let px = cx + x1 * f * sc, py = cy + y2 * f * sc;
+      const dx = px - mx, dy = py - my, d2 = dx * dx + dy * dy;
+      if (d2 < RR2) { const d = Math.sqrt(d2) || 1, push = (1 - d / RR) * 38; px += dx / d * push; py += dy / d * push; }
+      SX[i] = px; SY[i] = py;
+      const s = 0.8 + f * 1.8;
+      let a = (f - 0.7) * 2; a = a < 0.16 ? 0.16 : a > 1 ? 1 : a;
+      ctx.globalAlpha = a;
+      ctx.fillStyle = pal[C[i]];
+      ctx.fillRect(px - s / 2, py - s / 2, s, s);
+    }
+    const pr = this.pairs;
+    if (pr && pr.length) {
+      ctx.globalAlpha = dark ? 0.2 : 0.16;
+      ctx.strokeStyle = dark ? '#8fb2ff' : '#2d6cdf';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      for (let q = 0; q < pr.length; q += 2) { ctx.moveTo(SX[pr[q]], SY[pr[q]]); ctx.lineTo(SX[pr[q + 1]], SY[pr[q + 1]]); }
+      ctx.stroke();
+    }
+    if (mx > -999) {
+      ctx.globalAlpha = dark ? 0.5 : 0.35;
+      ctx.strokeStyle = dark ? '#72f7f1' : '#14b8b3';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(mx, my, 26 + Math.sin(t * 0.006) * 4, 0, TWO); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+
+
+  model(s) {
+    const W = {
+      retro: { perf: 0.55, mot: 0.15, part: 0.1, att: 0.05 },
+      colab: { perf: 0.2, mot: 0.2, part: 0.5, att: 0.05 },
+      gamif: { perf: 0.1, mot: 0.55, part: 0.25, att: 0.1 },
+      tutor: { perf: 0.4, mot: 0.15, part: 0.1, att: 0.3 }
+    };
+    const st = this.state;
+    const g = (v) => (100 - v) / 100;
+    const w = W[s];
+    const raw = (w.perf * g(st.perf) + w.mot * g(st.mot) + w.part * g(st.part) + w.att * g(st.att)) * 38;
+    const gain = raw * (0.55 + st.att / 220);
+    return Math.min(100, Math.round(st.perf + gain));
+  }
+
+  renderVals() {
+    const st = this.state;
+    const dark = this.isDark();
+    const VS = [
+      { k: '01', name: 'Datos', sub: 'La nube de datos del estudiante' },
+      { k: '02', name: 'Gemelo', sub: 'Doble hélice: hebra real ↔ hebra digital' },
+      { k: '03', name: 'EduTwin', sub: 'El gemelo digital toma forma' },
+      { k: '04', name: 'Proyección', sub: 'Paisaje de escenarios simulados' }
+    ];
+    const f = st.flipped;
+    const allOn = f.every(Boolean);
+    const flipAt = (i) => () => { const n = f.slice(); n[i] = !n[i]; this.setState({ flipped: n }); };
+    const fc = (i) => 'flip-in' + (f[i] ? ' on' : '');
+
+    const S = [
+      { label: 'Captura', title: 'Datos reales del estudiante', text: 'Se recogen los datos observables de cada estudiante: rendimiento, asistencia, participación y evaluación, junto con las observaciones del docente.', tags: ['Rendimiento', 'Asistencia', 'Participación', 'Evaluación'] },
+      { label: 'Réplica', title: 'Nace el gemelo digital', text: 'El HDT integra esos datos en una réplica digital que representa dinámicamente lo académico, lo conductual y lo emocional del estudiante.', tags: ['Perfil individual', 'Actualización continua', 'Ritmos y estilos'] },
+      { label: 'Simulación', title: 'El laboratorio pedagógico', text: 'El docente ensaya estrategias en escenarios de enseñanza-aprendizaje simulados, sin exponer al estudiante real a una intervención no probada.', tags: ['Escenarios', 'Estrategias didácticas', 'Sin riesgo'] },
+      { label: 'Proyección', title: 'Efectos anticipados', text: 'El modelo proyecta el efecto potencial de cada intervención sobre el desempeño escolar, para comparar alternativas con evidencia.', tags: ['Desempeño proyectado', 'Comparación', 'Evidencia'] },
+      { label: 'Decisión', title: 'El docente decide', text: 'Con la proyección en la mano, el docente ajusta su planeación y lleva al aula la estrategia más pertinente. Lo que ocurre en el aula vuelve a alimentar al gemelo.', tags: ['Planes de clase', 'Intervención', 'Retroalimentación'] }
+    ];
+    const steps = S.map((s, i) => ({
+      num: '0' + (i + 1), label: s.label,
+      aria: 'Paso ' + (i + 1) + ': ' + s.label,
+      current: i === st.step ? 'step' : 'false',
+      cls: 'node' + (i === st.step ? ' is-on' : '') + (i < st.step ? ' is-done' : ''),
+      pick: () => this.setState({ step: i, auto: false })
+    }));
+    const cur = Object.assign({ num: '0' + (st.step + 1) }, S[st.step]);
+
+    const sliders = [
+      { key: 'perf', label: 'Desempeño actual' },
+      { key: 'att', label: 'Asistencia' },
+      { key: 'part', label: 'Participación' },
+      { key: 'mot', label: 'Motivación' }
+    ].map((s) => ({
+      id: 'sl-' + s.key, label: s.label, val: st[s.key],
+      on: (e) => { const o = {}; o[s.key] = +e.target.value; this.setState(o); }
+    }));
+
+    const findings = [];
+    if (st.perf < 50) findings.push('Desempeño bajo');
+    if (st.att < 60) findings.push('Asistencia irregular');
+    if (st.part < 45) findings.push('Participación baja');
+    if (st.mot < 45) findings.push('Motivación baja');
+
+    const SD = [
+      { id: 'retro', name: 'Retroalimentación personalizada', desc: 'Comentarios específicos y oportunos sobre cada entrega.' },
+      { id: 'colab', name: 'Aprendizaje colaborativo', desc: 'Trabajo en equipos con roles definidos.' },
+      { id: 'gamif', name: 'Gamificación', desc: 'Retos, niveles y reconocimientos en clase.' },
+      { id: 'tutor', name: 'Tutoría entre pares', desc: 'Acompañamiento de un compañero aventajado.' }
+    ];
+    const scores = SD.map((s) => this.model(s.id));
+    let best = 0; scores.forEach((v, i) => { if (v > scores[best]) best = i; });
+    const strats = SD.map((s, i) => ({
+      name: s.name, desc: s.desc, best: i === best, sel: st.strat === s.id,
+      cls: 'strat' + (st.strat === s.id ? ' sel' : ''),
+      pick: () => this.setState({ strat: s.id })
+    }));
+    const selIdx = SD.findIndex((s) => s.id === st.strat);
+    const proj = scores[selIdx];
+    const delta = Math.max(0, proj - st.perf);
+    const projDeg = (proj * 3.6).toFixed(1);
+    const track = dark ? '#1c2d59' : '#dae2ff';
+    const gaugeBg = 'conic-gradient(' + (dark ? '#3fe0d9' : '#14b8b3') + ' 0deg, ' + (dark ? '#a77dff' : '#814afd') + ' ' + projDeg + 'deg, ' + track + ' ' + projDeg + 'deg 360deg)';
+    const comp = st.perf * 0.4 + st.att * 0.2 + st.part * 0.2 + st.mot * 0.2;
+    let riskLabel = 'Riesgo bajo', riskColor = 'var(--ok)';
+    if (comp < 50) { riskLabel = 'Riesgo alto'; riskColor = 'var(--warn)'; }
+    else if (comp < 70) { riskLabel = 'Riesgo medio'; riskColor = 'var(--mid)'; }
+
+    const CAT = [
+      { a: 'Human Digital Twin (HDT)', b: 'Funcionalidad y diseño', c: 'Especificaciones técnicas del prototipo.' },
+      { a: 'Caracterización educativa', b: 'Métodos de caracterización (tradicional vs. HDT)', c: 'Observaciones docentes, registros de desempeño estudiantil, datos generados por el HDT.' },
+      { a: 'Simulación pedagógica', b: 'Percepción de la pertinencia pedagógica', c: 'Entrevistas a docentes, diarios de campo durante la prueba del prototipo.' },
+      { a: 'Personalización del aprendizaje', b: 'Toma de decisiones pedagógicas', c: 'Planes de clase modificados, intervenciones específicas implementadas.' }
+    ].map((r) => Object.assign({ h1: 'Categoría', h2: 'Subcategoría', h3: 'Unidades de análisis' }, r));
+    const VAR = [
+      { a: 'Caracterización de estudiantes', b: 'Precisión de la identificación de dificultades', c: 'Coincidencia entre las predicciones del HDT y el rendimiento real.' },
+      { a: 'Bajo rendimiento académico', b: 'Desempeño escolar', c: 'Notas promedio en asignaturas clave; tasa de deserción y reprobación.' },
+      { a: 'Uso del Human Digital Twin', b: 'Aplicación de estrategias personalizadas', c: 'Frecuencia de uso del HDT por el docente; cantidad de estrategias simuladas y aplicadas.' },
+      { a: 'Mejora en el desempeño escolar', b: 'Progreso del estudiante', c: 'Variación positiva en las evaluaciones post-intervención; tasa de motivación y participación.' }
+    ].map((r) => Object.assign({ h1: 'Variable', h2: 'Dimensión', h3: 'Indicadores' }, r));
+
+    const L = [
+      { name: 'Local', color: '#0f9e99', kicker: 'Montería · Córdoba', title: 'Diagnósticos sin base tecnológica', text: 'Las investigaciones locales se centran en diagnosticar el bajo rendimiento y buscar estrategias, pero carecen de una base tecnológica que integre los datos para decidir. La región avanza en TIC, aunque con limitaciones presupuestales y una tradición de enseñanza expositiva. El prototipo se diseñará, validará y probará en instituciones educativas públicas de Montería.', refs: 'Rojas & López, 2021 · Pérez & Caro, 2022' },
+      { name: 'Nacional', color: '#2d6cdf', kicker: 'Colombia y la región', title: 'Interés creciente, sin gemelos digitales', text: 'Hay interés en inteligencia artificial, analítica del aprendizaje y entornos virtuales. Estudios en Colombia y Ecuador relacionan factores emocionales y motivacionales con el rendimiento, pero no se registran proyectos que usen gemelos digitales como apoyo a la práctica docente.', refs: 'Medranda et al., 2024' },
+      { name: 'Internacional', color: '#814afd', kicker: 'Estudios 2020 – 2025', title: 'Del taller y el hospital al aula', text: 'Los gemelos digitales muestran avances en salud, ingeniería y manufactura: modelan comportamientos y optimizan resultados. Su adopción en educación aún es limitada, y se señala la necesidad de llevar el modelado digital al aprendizaje personalizado.', refs: 'Tao et al., 2019 · Kritzinger et al., 2018 · Zawacki-Richter et al., 2019' }
+    ];
+    const layers = L.map((l, i) => ({
+      name: l.name, color: l.color, top: 30 + i * 105, z: 10 - i, on: st.layer === i,
+      bg: st.layer === i ? l.color : (dark ? 'rgba(13,25,54,.78)' : 'rgba(255,255,255,.78)'),
+      shadow: st.layer === i ? ('0 40px 60px -20px ' + l.color) : 'none',
+      cls: 'lyr' + (st.layer === i ? ' on' : ''),
+      pick: () => this.setState({ layer: i })
+    }));
+
+    return {
+      themeClass: (dark ? 't-dark' : 't-light') + (this.props.motion === false ? ' still' : ''),
+      themeLabel: dark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro',
+      toggleTheme: (e) => this.toggleTheme(e),
+      onHeroMove: (e) => this.onHeroMove(e),
+      onHeroLeave: () => this.onHeroLeave(),
+      cvRef: this.cvRef,
+      vs: VS[st.vstage],
+      vstages: VS.map((v, i) => ({
+        k: v.k, name: v.name, on: st.vstage === i,
+        cls: 'pill-b' + (st.vstage === i ? ' on' : ''),
+        pick: () => { if (this.shapes) this.goStage(i, !this.animOn()); if (!this.animOn()) this.frame(performance.now()); }
+      })),
+      hudCls: 'hud' + (st.vpaused ? ' paused' : ''),
+
+      cls0: fc(0), cls1: fc(1), cls2: fc(2), cls3: fc(3),
+      on0: f[0], on1: f[1], on2: f[2], on3: f[3],
+      flip0: flipAt(0), flip1: flipAt(1), flip2: flipAt(2), flip3: flipAt(3),
+      allOn: allOn,
+      switchCls: 'switch' + (allOn ? ' on' : ''),
+      switchLabel: allOn ? 'Con EduTwin' : 'Activar EduTwin',
+      toggleAll: () => { const v = !allOn; this.setState({ flipped: [v, v, v, v] }); },
+
+      steps: steps, cur: cur, prog: st.step * 25,
+      auto: st.auto, notAuto: !st.auto,
+      autoText: st.auto ? 'Pausar recorrido' : 'Reproducir recorrido',
+      autoLabel: st.auto ? 'Pausar el recorrido automático' : 'Reproducir el recorrido automático',
+      toggleAuto: () => this.setState({ auto: !st.auto }),
+
+      sliders: sliders, findings: findings, noFindings: findings.length === 0,
+      strats: strats, proj: proj, perf: st.perf, delta: delta,
+      stratName: SD[selIdx].name.toLowerCase(),
+      gaugeBg: gaugeBg, curDeg: (st.perf * 3.6).toFixed(1),
+      gaugeAria: 'Desempeño proyectado ' + proj + ' de 100, actual ' + st.perf,
+      riskLabel: riskLabel, riskColor: riskColor,
+
+      isHyp: st.hyp, isSup: !st.hyp,
+      hypCls: 'seg-b' + (st.hyp ? ' on' : ''), supCls: 'seg-b' + (!st.hyp ? ' on' : ''),
+      showHyp: () => this.setState({ hyp: true }), showSup: () => this.setState({ hyp: false }),
+
+      isCat: st.tab === 'cat', isVar: st.tab === 'var',
+      catCls: 'seg-b' + (st.tab === 'cat' ? ' on' : ''), varCls: 'seg-b' + (st.tab === 'var' ? ' on' : ''),
+      showCat: () => this.setState({ tab: 'cat' }), showVar: () => this.setState({ tab: 'var' }),
+      rows: st.tab === 'cat' ? CAT : VAR,
+
+      layers: layers, layer: L[st.layer]
+    };
+  }
+}
+</script>
+</body>
+</html>
